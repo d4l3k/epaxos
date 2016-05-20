@@ -21,33 +21,29 @@
 */
 package protobuf
 
-import proto "code.google.com/p/gogoprotobuf/proto"
-import json "encoding/json"
-import math "math"
-
-// discarding unused import gogoproto "code.google.com/p/gogoprotobuf/gogoproto/gogo.pb"
-
-import io "io"
-import code_google_com_p_gogoprotobuf_proto "code.google.com/p/gogoprotobuf/proto"
-
+import proto "github.com/gogo/protobuf/proto"
 import fmt "fmt"
-import strings "strings"
-import reflect "reflect"
+import math "math"
+import _ "gogoproto"
 
-import fmt1 "fmt"
-import strings1 "strings"
-import code_google_com_p_gogoprotobuf_proto1 "code.google.com/p/gogoprotobuf/proto"
-import sort "sort"
-import strconv "strconv"
-import reflect1 "reflect"
-
-import fmt2 "fmt"
 import bytes "bytes"
 
-// Reference proto, json, and math imports to suppress error if they are not otherwise used.
+import strings "strings"
+import github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
+import sort "sort"
+import strconv "strconv"
+import reflect "reflect"
+
+import io "io"
+
+// Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = &json.SyntaxError{}
+var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+const _ = proto.GoGoProtoPackageIsVersion1
 
 type State int32
 
@@ -90,1815 +86,2391 @@ func (x *State) UnmarshalJSON(data []byte) error {
 	*x = State(value)
 	return nil
 }
+func (State) EnumDescriptor() ([]byte, []int) { return fileDescriptorMessage, []int{0} }
 
 // Nested fields.
 type Ballot struct {
-	Epoch            *uint32 `protobuf:"varint,1,req" json:"Epoch,omitempty"`
-	Number           *uint64 `protobuf:"varint,2,req" json:"Number,omitempty"`
-	ReplicaID        *uint32 `protobuf:"varint,3,req" json:"ReplicaID,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Epoch     *uint32 `protobuf:"varint,1,req,name=Epoch,json=epoch" json:"Epoch,omitempty"`
+	Number    *uint64 `protobuf:"varint,2,req,name=Number,json=number" json:"Number,omitempty"`
+	ReplicaID *uint32 `protobuf:"varint,3,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
 }
 
-func (m *Ballot) Reset()      { *m = Ballot{} }
-func (*Ballot) ProtoMessage() {}
-
-func (m *Ballot) GetEpoch() uint32 {
-	if m != nil && m.Epoch != nil {
-		return *m.Epoch
-	}
-	return 0
-}
-
-func (m *Ballot) GetNumber() uint64 {
-	if m != nil && m.Number != nil {
-		return *m.Number
-	}
-	return 0
-}
-
-func (m *Ballot) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
+func (m *Ballot) Reset()                    { *m = Ballot{} }
+func (*Ballot) ProtoMessage()               {}
+func (*Ballot) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{0} }
 
 // EPaxos messages.
 type PreAccept struct {
-	ReplicaID        *uint32  `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64  `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	Cmds             [][]byte `protobuf:"bytes,3,rep" json:"Cmds,omitempty"`
-	Deps             []uint64 `protobuf:"varint,4,rep" json:"Deps,omitempty"`
-	Ballot           *Ballot  `protobuf:"bytes,5,req" json:"Ballot,omitempty"`
-	From             *uint32  `protobuf:"varint,6,req" json:"From,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	ReplicaID  *uint32  `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64  `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	Cmds       [][]byte `protobuf:"bytes,3,rep,name=Cmds,json=cmds" json:"Cmds,omitempty"`
+	Deps       []uint64 `protobuf:"varint,4,rep,name=Deps,json=deps" json:"Deps,omitempty"`
+	Ballot     *Ballot  `protobuf:"bytes,5,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	From       *uint32  `protobuf:"varint,6,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *PreAccept) Reset()      { *m = PreAccept{} }
-func (*PreAccept) ProtoMessage() {}
-
-func (m *PreAccept) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *PreAccept) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *PreAccept) GetCmds() [][]byte {
-	if m != nil {
-		return m.Cmds
-	}
-	return nil
-}
-
-func (m *PreAccept) GetDeps() []uint64 {
-	if m != nil {
-		return m.Deps
-	}
-	return nil
-}
-
-func (m *PreAccept) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *PreAccept) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *PreAccept) Reset()                    { *m = PreAccept{} }
+func (*PreAccept) ProtoMessage()               {}
+func (*PreAccept) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{1} }
 
 type PreAcceptOK struct {
-	ReplicaID        *uint32 `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64 `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	From             *uint32 `protobuf:"varint,3,req" json:"From,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	ReplicaID  *uint32 `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64 `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	From       *uint32 `protobuf:"varint,3,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *PreAcceptOK) Reset()      { *m = PreAcceptOK{} }
-func (*PreAcceptOK) ProtoMessage() {}
-
-func (m *PreAcceptOK) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *PreAcceptOK) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *PreAcceptOK) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *PreAcceptOK) Reset()                    { *m = PreAcceptOK{} }
+func (*PreAcceptOK) ProtoMessage()               {}
+func (*PreAcceptOK) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{2} }
 
 type PreAcceptReply struct {
-	ReplicaID        *uint32  `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64  `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	Deps             []uint64 `protobuf:"varint,3,rep" json:"Deps,omitempty"`
-	Ballot           *Ballot  `protobuf:"bytes,4,req" json:"Ballot,omitempty"`
-	From             *uint32  `protobuf:"varint,5,req" json:"From,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	ReplicaID  *uint32  `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64  `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	Deps       []uint64 `protobuf:"varint,3,rep,name=Deps,json=deps" json:"Deps,omitempty"`
+	Ballot     *Ballot  `protobuf:"bytes,4,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	From       *uint32  `protobuf:"varint,5,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *PreAcceptReply) Reset()      { *m = PreAcceptReply{} }
-func (*PreAcceptReply) ProtoMessage() {}
-
-func (m *PreAcceptReply) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *PreAcceptReply) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *PreAcceptReply) GetDeps() []uint64 {
-	if m != nil {
-		return m.Deps
-	}
-	return nil
-}
-
-func (m *PreAcceptReply) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *PreAcceptReply) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *PreAcceptReply) Reset()                    { *m = PreAcceptReply{} }
+func (*PreAcceptReply) ProtoMessage()               {}
+func (*PreAcceptReply) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{3} }
 
 type Accept struct {
-	ReplicaID        *uint32  `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64  `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	Cmds             [][]byte `protobuf:"bytes,3,rep" json:"Cmds,omitempty"`
-	Deps             []uint64 `protobuf:"varint,4,rep" json:"Deps,omitempty"`
-	Ballot           *Ballot  `protobuf:"bytes,5,req" json:"Ballot,omitempty"`
-	From             *uint32  `protobuf:"varint,6,req" json:"From,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	ReplicaID  *uint32  `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64  `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	Cmds       [][]byte `protobuf:"bytes,3,rep,name=Cmds,json=cmds" json:"Cmds,omitempty"`
+	Deps       []uint64 `protobuf:"varint,4,rep,name=Deps,json=deps" json:"Deps,omitempty"`
+	Ballot     *Ballot  `protobuf:"bytes,5,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	From       *uint32  `protobuf:"varint,6,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *Accept) Reset()      { *m = Accept{} }
-func (*Accept) ProtoMessage() {}
-
-func (m *Accept) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *Accept) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *Accept) GetCmds() [][]byte {
-	if m != nil {
-		return m.Cmds
-	}
-	return nil
-}
-
-func (m *Accept) GetDeps() []uint64 {
-	if m != nil {
-		return m.Deps
-	}
-	return nil
-}
-
-func (m *Accept) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *Accept) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *Accept) Reset()                    { *m = Accept{} }
+func (*Accept) ProtoMessage()               {}
+func (*Accept) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{4} }
 
 type AcceptReply struct {
-	ReplicaID        *uint32 `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64 `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	Ballot           *Ballot `protobuf:"bytes,3,req" json:"Ballot,omitempty"`
-	From             *uint32 `protobuf:"varint,4,req" json:"From,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	ReplicaID  *uint32 `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64 `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	Ballot     *Ballot `protobuf:"bytes,3,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	From       *uint32 `protobuf:"varint,4,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *AcceptReply) Reset()      { *m = AcceptReply{} }
-func (*AcceptReply) ProtoMessage() {}
-
-func (m *AcceptReply) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *AcceptReply) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *AcceptReply) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *AcceptReply) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *AcceptReply) Reset()                    { *m = AcceptReply{} }
+func (*AcceptReply) ProtoMessage()               {}
+func (*AcceptReply) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{5} }
 
 type Prepare struct {
-	ReplicaID        *uint32 `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64 `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	Ballot           *Ballot `protobuf:"bytes,3,req" json:"Ballot,omitempty"`
-	From             *uint32 `protobuf:"varint,4,req" json:"From,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	ReplicaID  *uint32 `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID *uint64 `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	Ballot     *Ballot `protobuf:"bytes,3,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	From       *uint32 `protobuf:"varint,4,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *Prepare) Reset()      { *m = Prepare{} }
-func (*Prepare) ProtoMessage() {}
-
-func (m *Prepare) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *Prepare) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *Prepare) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *Prepare) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *Prepare) Reset()                    { *m = Prepare{} }
+func (*Prepare) ProtoMessage()               {}
+func (*Prepare) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{6} }
 
 type PrepareReply struct {
-	ReplicaID        *uint32  `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstanceID       *uint64  `protobuf:"varint,2,req" json:"InstanceID,omitempty"`
-	State            *State   `protobuf:"varint,3,req,enum=protobuf.State" json:"State,omitempty"`
-	Cmds             [][]byte `protobuf:"bytes,4,rep" json:"Cmds,omitempty"`
-	Deps             []uint64 `protobuf:"varint,5,rep" json:"Deps,omitempty"`
-	Ballot           *Ballot  `protobuf:"bytes,6,req" json:"Ballot,omitempty"`
-	OriginalBallot   *Ballot  `protobuf:"bytes,7,req" json:"OriginalBallot,omitempty"`
-	IsFromLeader     *bool    `protobuf:"varint,8,req" json:"IsFromLeader,omitempty"`
-	From             *uint32  `protobuf:"varint,9,req" json:"From,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	ReplicaID      *uint32  `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstanceID     *uint64  `protobuf:"varint,2,req,name=InstanceID,json=instanceID" json:"InstanceID,omitempty"`
+	State          *State   `protobuf:"varint,3,req,name=State,json=state,enum=protobuf.State" json:"State,omitempty"`
+	Cmds           [][]byte `protobuf:"bytes,4,rep,name=Cmds,json=cmds" json:"Cmds,omitempty"`
+	Deps           []uint64 `protobuf:"varint,5,rep,name=Deps,json=deps" json:"Deps,omitempty"`
+	Ballot         *Ballot  `protobuf:"bytes,6,req,name=Ballot,json=ballot" json:"Ballot,omitempty"`
+	OriginalBallot *Ballot  `protobuf:"bytes,7,req,name=OriginalBallot,json=originalBallot" json:"OriginalBallot,omitempty"`
+	IsFromLeader   *bool    `protobuf:"varint,8,req,name=IsFromLeader,json=isFromLeader" json:"IsFromLeader,omitempty"`
+	From           *uint32  `protobuf:"varint,9,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *PrepareReply) Reset()      { *m = PrepareReply{} }
-func (*PrepareReply) ProtoMessage() {}
-
-func (m *PrepareReply) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *PrepareReply) GetInstanceID() uint64 {
-	if m != nil && m.InstanceID != nil {
-		return *m.InstanceID
-	}
-	return 0
-}
-
-func (m *PrepareReply) GetState() State {
-	if m != nil && m.State != nil {
-		return *m.State
-	}
-	return State_NilStatus
-}
-
-func (m *PrepareReply) GetCmds() [][]byte {
-	if m != nil {
-		return m.Cmds
-	}
-	return nil
-}
-
-func (m *PrepareReply) GetDeps() []uint64 {
-	if m != nil {
-		return m.Deps
-	}
-	return nil
-}
-
-func (m *PrepareReply) GetBallot() *Ballot {
-	if m != nil {
-		return m.Ballot
-	}
-	return nil
-}
-
-func (m *PrepareReply) GetOriginalBallot() *Ballot {
-	if m != nil {
-		return m.OriginalBallot
-	}
-	return nil
-}
-
-func (m *PrepareReply) GetIsFromLeader() bool {
-	if m != nil && m.IsFromLeader != nil {
-		return *m.IsFromLeader
-	}
-	return false
-}
-
-func (m *PrepareReply) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *PrepareReply) Reset()                    { *m = PrepareReply{} }
+func (*PrepareReply) ProtoMessage()               {}
+func (*PrepareReply) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{7} }
 
 type Commit struct {
-	ReplicaID        *uint32  `protobuf:"varint,1,req" json:"ReplicaID,omitempty"`
-	InstancdID       *uint64  `protobuf:"varint,2,req" json:"InstancdID,omitempty"`
-	Cmds             [][]byte `protobuf:"bytes,3,rep" json:"Cmds,omitempty"`
-	Deps             []uint64 `protobuf:"varint,4,rep" json:"Deps,omitempty"`
-	From             *uint32  `protobuf:"varint,5,req" json:"From,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	ReplicaID  *uint32  `protobuf:"varint,1,req,name=ReplicaID,json=replicaID" json:"ReplicaID,omitempty"`
+	InstancdID *uint64  `protobuf:"varint,2,req,name=InstancdID,json=instancdID" json:"InstancdID,omitempty"`
+	Cmds       [][]byte `protobuf:"bytes,3,rep,name=Cmds,json=cmds" json:"Cmds,omitempty"`
+	Deps       []uint64 `protobuf:"varint,4,rep,name=Deps,json=deps" json:"Deps,omitempty"`
+	From       *uint32  `protobuf:"varint,5,req,name=From,json=from" json:"From,omitempty"`
 }
 
-func (m *Commit) Reset()      { *m = Commit{} }
-func (*Commit) ProtoMessage() {}
-
-func (m *Commit) GetReplicaID() uint32 {
-	if m != nil && m.ReplicaID != nil {
-		return *m.ReplicaID
-	}
-	return 0
-}
-
-func (m *Commit) GetInstancdID() uint64 {
-	if m != nil && m.InstancdID != nil {
-		return *m.InstancdID
-	}
-	return 0
-}
-
-func (m *Commit) GetCmds() [][]byte {
-	if m != nil {
-		return m.Cmds
-	}
-	return nil
-}
-
-func (m *Commit) GetDeps() []uint64 {
-	if m != nil {
-		return m.Deps
-	}
-	return nil
-}
-
-func (m *Commit) GetFrom() uint32 {
-	if m != nil && m.From != nil {
-		return *m.From
-	}
-	return 0
-}
+func (m *Commit) Reset()                    { *m = Commit{} }
+func (*Commit) ProtoMessage()               {}
+func (*Commit) Descriptor() ([]byte, []int) { return fileDescriptorMessage, []int{8} }
 
 func init() {
+	proto.RegisterType((*Ballot)(nil), "protobuf.Ballot")
+	proto.RegisterType((*PreAccept)(nil), "protobuf.PreAccept")
+	proto.RegisterType((*PreAcceptOK)(nil), "protobuf.PreAcceptOK")
+	proto.RegisterType((*PreAcceptReply)(nil), "protobuf.PreAcceptReply")
+	proto.RegisterType((*Accept)(nil), "protobuf.Accept")
+	proto.RegisterType((*AcceptReply)(nil), "protobuf.AcceptReply")
+	proto.RegisterType((*Prepare)(nil), "protobuf.Prepare")
+	proto.RegisterType((*PrepareReply)(nil), "protobuf.PrepareReply")
+	proto.RegisterType((*Commit)(nil), "protobuf.Commit")
 	proto.RegisterEnum("protobuf.State", State_name, State_value)
 }
-func (m *Ballot) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *Ballot) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Epoch = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Number = &v
-		case 3:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*Ballot)
+	if !ok {
+		that2, ok := that.(Ballot)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *Ballot")
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *Ballot but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *Ballot but is not nil && this == nil")
+	}
+	if this.Epoch != nil && that1.Epoch != nil {
+		if *this.Epoch != *that1.Epoch {
+			return fmt.Errorf("Epoch this(%v) Not Equal that(%v)", *this.Epoch, *that1.Epoch)
+		}
+	} else if this.Epoch != nil {
+		return fmt.Errorf("this.Epoch == nil && that.Epoch != nil")
+	} else if that1.Epoch != nil {
+		return fmt.Errorf("Epoch this(%v) Not Equal that(%v)", this.Epoch, that1.Epoch)
+	}
+	if this.Number != nil && that1.Number != nil {
+		if *this.Number != *that1.Number {
+			return fmt.Errorf("Number this(%v) Not Equal that(%v)", *this.Number, *that1.Number)
+		}
+	} else if this.Number != nil {
+		return fmt.Errorf("this.Number == nil && that.Number != nil")
+	} else if that1.Number != nil {
+		return fmt.Errorf("Number this(%v) Not Equal that(%v)", this.Number, that1.Number)
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
 	}
 	return nil
 }
-func (m *PreAccept) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *Ballot) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				byteLen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + byteLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Cmds = append(m.Cmds, make([]byte, postIndex-index))
-			copy(m.Cmds[len(m.Cmds)-1], data[index:postIndex])
-			index = postIndex
-		case 4:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Deps = append(m.Deps, v)
-		case 5:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 6:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*Ballot)
+	if !ok {
+		that2, ok := that.(Ballot)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.Epoch != nil && that1.Epoch != nil {
+		if *this.Epoch != *that1.Epoch {
+			return false
+		}
+	} else if this.Epoch != nil {
+		return false
+	} else if that1.Epoch != nil {
+		return false
+	}
+	if this.Number != nil && that1.Number != nil {
+		if *this.Number != *that1.Number {
+			return false
+		}
+	} else if this.Number != nil {
+		return false
+	} else if that1.Number != nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	return true
+}
+func (this *PreAccept) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*PreAccept)
+	if !ok {
+		that2, ok := that.(PreAccept)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *PreAccept")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *PreAccept but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *PreAccept but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return fmt.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return fmt.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return fmt.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return fmt.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *PreAcceptOK) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *PreAccept) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*PreAccept)
+	if !ok {
+		that2, ok := that.(PreAccept)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return false
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return false
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return false
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return false
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *PreAcceptOK) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*PreAcceptOK)
+	if !ok {
+		that2, ok := that.(PreAcceptOK)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *PreAcceptOK")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *PreAcceptOK but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *PreAcceptOK but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *PreAcceptReply) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *PreAcceptOK) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Deps = append(m.Deps, v)
-		case 4:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 5:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*PreAcceptOK)
+	if !ok {
+		that2, ok := that.(PreAcceptOK)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *PreAcceptReply) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*PreAcceptReply)
+	if !ok {
+		that2, ok := that.(PreAcceptReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *PreAcceptReply")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *PreAcceptReply but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *PreAcceptReply but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return fmt.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return fmt.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *Accept) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *PreAcceptReply) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				byteLen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + byteLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Cmds = append(m.Cmds, make([]byte, postIndex-index))
-			copy(m.Cmds[len(m.Cmds)-1], data[index:postIndex])
-			index = postIndex
-		case 4:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Deps = append(m.Deps, v)
-		case 5:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 6:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*PreAcceptReply)
+	if !ok {
+		that2, ok := that.(PreAcceptReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return false
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return false
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *Accept) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*Accept)
+	if !ok {
+		that2, ok := that.(Accept)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *Accept")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *Accept but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *Accept but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return fmt.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return fmt.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return fmt.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return fmt.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *AcceptReply) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *Accept) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 4:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*Accept)
+	if !ok {
+		that2, ok := that.(Accept)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return false
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return false
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return false
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return false
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *AcceptReply) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*AcceptReply)
+	if !ok {
+		that2, ok := that.(AcceptReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *AcceptReply")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *AcceptReply but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *AcceptReply but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *Prepare) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *AcceptReply) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 4:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*AcceptReply)
+	if !ok {
+		that2, ok := that.(AcceptReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *Prepare) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*Prepare)
+	if !ok {
+		that2, ok := that.(Prepare)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *Prepare")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *Prepare but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *Prepare but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *PrepareReply) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *Prepare) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstanceID = &v
-		case 3:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v State
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (State(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.State = &v
-		case 4:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				byteLen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + byteLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Cmds = append(m.Cmds, make([]byte, postIndex-index))
-			copy(m.Cmds[len(m.Cmds)-1], data[index:postIndex])
-			index = postIndex
-		case 5:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Deps = append(m.Deps, v)
-		case 6:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Ballot == nil {
-				m.Ballot = &Ballot{}
-			}
-			if err := m.Ballot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 7:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				msglen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + msglen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.OriginalBallot == nil {
-				m.OriginalBallot = &Ballot{}
-			}
-			if err := m.OriginalBallot.Unmarshal(data[index:postIndex]); err != nil {
-				return err
-			}
-			index = postIndex
-		case 8:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			b := bool(v != 0)
-			m.IsFromLeader = &b
-		case 9:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*Prepare)
+	if !ok {
+		that2, ok := that.(Prepare)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *PrepareReply) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*PrepareReply)
+	if !ok {
+		that2, ok := that.(PrepareReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *PrepareReply")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *PrepareReply but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *PrepareReply but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
+		}
+	} else if this.InstanceID != nil {
+		return fmt.Errorf("this.InstanceID == nil && that.InstanceID != nil")
+	} else if that1.InstanceID != nil {
+		return fmt.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
+	}
+	if this.State != nil && that1.State != nil {
+		if *this.State != *that1.State {
+			return fmt.Errorf("State this(%v) Not Equal that(%v)", *this.State, *that1.State)
+		}
+	} else if this.State != nil {
+		return fmt.Errorf("this.State == nil && that.State != nil")
+	} else if that1.State != nil {
+		return fmt.Errorf("State this(%v) Not Equal that(%v)", this.State, that1.State)
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return fmt.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return fmt.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return fmt.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return fmt.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return fmt.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
+	}
+	if !this.OriginalBallot.Equal(that1.OriginalBallot) {
+		return fmt.Errorf("OriginalBallot this(%v) Not Equal that(%v)", this.OriginalBallot, that1.OriginalBallot)
+	}
+	if this.IsFromLeader != nil && that1.IsFromLeader != nil {
+		if *this.IsFromLeader != *that1.IsFromLeader {
+			return fmt.Errorf("IsFromLeader this(%v) Not Equal that(%v)", *this.IsFromLeader, *that1.IsFromLeader)
+		}
+	} else if this.IsFromLeader != nil {
+		return fmt.Errorf("this.IsFromLeader == nil && that.IsFromLeader != nil")
+	} else if that1.IsFromLeader != nil {
+		return fmt.Errorf("IsFromLeader this(%v) Not Equal that(%v)", this.IsFromLeader, that1.IsFromLeader)
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (m *Commit) Unmarshal(data []byte) error {
-	l := len(data)
-	index := 0
-	for index < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if index >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := data[index]
-			index++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
+func (this *PrepareReply) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
 		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.ReplicaID = &v
-		case 2:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.InstancdID = &v
-		case 3:
-			if wireType != 2 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				byteLen |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			postIndex := index + byteLen
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Cmds = append(m.Cmds, make([]byte, postIndex-index))
-			copy(m.Cmds[len(m.Cmds)-1], data[index:postIndex])
-			index = postIndex
-		case 4:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint64
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint64(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Deps = append(m.Deps, v)
-		case 5:
-			if wireType != 0 {
-				return code_google_com_p_gogoprotobuf_proto.ErrWrongType
-			}
-			var v uint32
-			for shift := uint(0); ; shift += 7 {
-				if index >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := data[index]
-				index++
-				v |= (uint32(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.From = &v
-		default:
-			var sizeOfWire int
-			for {
-				sizeOfWire++
-				wire >>= 7
-				if wire == 0 {
-					break
-				}
-			}
-			index -= sizeOfWire
-			skippy, err := code_google_com_p_gogoprotobuf_proto.Skip(data[index:])
-			if err != nil {
-				return err
-			}
-			if (index + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, data[index:index+skippy]...)
-			index += skippy
+		return false
+	}
+
+	that1, ok := that.(*PrepareReply)
+	if !ok {
+		that2, ok := that.(PrepareReply)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
 		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstanceID != nil && that1.InstanceID != nil {
+		if *this.InstanceID != *that1.InstanceID {
+			return false
+		}
+	} else if this.InstanceID != nil {
+		return false
+	} else if that1.InstanceID != nil {
+		return false
+	}
+	if this.State != nil && that1.State != nil {
+		if *this.State != *that1.State {
+			return false
+		}
+	} else if this.State != nil {
+		return false
+	} else if that1.State != nil {
+		return false
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return false
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return false
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return false
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return false
+		}
+	}
+	if !this.Ballot.Equal(that1.Ballot) {
+		return false
+	}
+	if !this.OriginalBallot.Equal(that1.OriginalBallot) {
+		return false
+	}
+	if this.IsFromLeader != nil && that1.IsFromLeader != nil {
+		if *this.IsFromLeader != *that1.IsFromLeader {
+			return false
+		}
+	} else if this.IsFromLeader != nil {
+		return false
+	} else if that1.IsFromLeader != nil {
+		return false
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *Commit) VerboseEqual(that interface{}) error {
+	if that == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that == nil && this != nil")
+	}
+
+	that1, ok := that.(*Commit)
+	if !ok {
+		that2, ok := that.(Commit)
+		if ok {
+			that1 = &that2
+		} else {
+			return fmt.Errorf("that is not of type *Commit")
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return nil
+		}
+		return fmt.Errorf("that is type *Commit but is nil && this != nil")
+	} else if this == nil {
+		return fmt.Errorf("that is type *Commit but is not nil && this == nil")
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
+		}
+	} else if this.ReplicaID != nil {
+		return fmt.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
+	} else if that1.ReplicaID != nil {
+		return fmt.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
+	}
+	if this.InstancdID != nil && that1.InstancdID != nil {
+		if *this.InstancdID != *that1.InstancdID {
+			return fmt.Errorf("InstancdID this(%v) Not Equal that(%v)", *this.InstancdID, *that1.InstancdID)
+		}
+	} else if this.InstancdID != nil {
+		return fmt.Errorf("this.InstancdID == nil && that.InstancdID != nil")
+	} else if that1.InstancdID != nil {
+		return fmt.Errorf("InstancdID this(%v) Not Equal that(%v)", this.InstancdID, that1.InstancdID)
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return fmt.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return fmt.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return fmt.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return fmt.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
+		}
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return fmt.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
+		}
+	} else if this.From != nil {
+		return fmt.Errorf("this.From == nil && that.From != nil")
+	} else if that1.From != nil {
+		return fmt.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
 	}
 	return nil
 }
-func (this *Ballot) String() string {
+func (this *Commit) Equal(that interface{}) bool {
+	if that == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	}
+
+	that1, ok := that.(*Commit)
+	if !ok {
+		that2, ok := that.(Commit)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return true
+		}
+		return false
+	} else if this == nil {
+		return false
+	}
+	if this.ReplicaID != nil && that1.ReplicaID != nil {
+		if *this.ReplicaID != *that1.ReplicaID {
+			return false
+		}
+	} else if this.ReplicaID != nil {
+		return false
+	} else if that1.ReplicaID != nil {
+		return false
+	}
+	if this.InstancdID != nil && that1.InstancdID != nil {
+		if *this.InstancdID != *that1.InstancdID {
+			return false
+		}
+	} else if this.InstancdID != nil {
+		return false
+	} else if that1.InstancdID != nil {
+		return false
+	}
+	if len(this.Cmds) != len(that1.Cmds) {
+		return false
+	}
+	for i := range this.Cmds {
+		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
+			return false
+		}
+	}
+	if len(this.Deps) != len(that1.Deps) {
+		return false
+	}
+	for i := range this.Deps {
+		if this.Deps[i] != that1.Deps[i] {
+			return false
+		}
+	}
+	if this.From != nil && that1.From != nil {
+		if *this.From != *that1.From {
+			return false
+		}
+	} else if this.From != nil {
+		return false
+	} else if that1.From != nil {
+		return false
+	}
+	return true
+}
+func (this *Ballot) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Ballot{`,
-		`Epoch:` + valueToStringMessage(this.Epoch) + `,`,
-		`Number:` + valueToStringMessage(this.Number) + `,`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 7)
+	s = append(s, "&protobuf.Ballot{")
+	if this.Epoch != nil {
+		s = append(s, "Epoch: "+valueToGoStringMessage(this.Epoch, "uint32")+",\n")
+	}
+	if this.Number != nil {
+		s = append(s, "Number: "+valueToGoStringMessage(this.Number, "uint64")+",\n")
+	}
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *PreAccept) String() string {
+func (this *PreAccept) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&PreAccept{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
-		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 10)
+	s = append(s, "&protobuf.PreAccept{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.Cmds != nil {
+		s = append(s, "Cmds: "+fmt.Sprintf("%#v", this.Cmds)+",\n")
+	}
+	if this.Deps != nil {
+		s = append(s, "Deps: "+fmt.Sprintf("%#v", this.Deps)+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *PreAcceptOK) String() string {
+func (this *PreAcceptOK) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&PreAcceptOK{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 7)
+	s = append(s, "&protobuf.PreAcceptOK{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *PreAcceptReply) String() string {
+func (this *PreAcceptReply) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&PreAcceptReply{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 9)
+	s = append(s, "&protobuf.PreAcceptReply{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.Deps != nil {
+		s = append(s, "Deps: "+fmt.Sprintf("%#v", this.Deps)+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *Accept) String() string {
+func (this *Accept) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Accept{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
-		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 10)
+	s = append(s, "&protobuf.Accept{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.Cmds != nil {
+		s = append(s, "Cmds: "+fmt.Sprintf("%#v", this.Cmds)+",\n")
+	}
+	if this.Deps != nil {
+		s = append(s, "Deps: "+fmt.Sprintf("%#v", this.Deps)+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *AcceptReply) String() string {
+func (this *AcceptReply) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&AcceptReply{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 8)
+	s = append(s, "&protobuf.AcceptReply{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *Prepare) String() string {
+func (this *Prepare) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Prepare{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 8)
+	s = append(s, "&protobuf.Prepare{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *PrepareReply) String() string {
+func (this *PrepareReply) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&PrepareReply{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
-		`State:` + valueToStringMessage(this.State) + `,`,
-		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
-		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
-		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
-		`OriginalBallot:` + strings.Replace(fmt.Sprintf("%v", this.OriginalBallot), "Ballot", "Ballot", 1) + `,`,
-		`IsFromLeader:` + valueToStringMessage(this.IsFromLeader) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 13)
+	s = append(s, "&protobuf.PrepareReply{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstanceID != nil {
+		s = append(s, "InstanceID: "+valueToGoStringMessage(this.InstanceID, "uint64")+",\n")
+	}
+	if this.State != nil {
+		s = append(s, "State: "+valueToGoStringMessage(this.State, "protobuf.State")+",\n")
+	}
+	if this.Cmds != nil {
+		s = append(s, "Cmds: "+fmt.Sprintf("%#v", this.Cmds)+",\n")
+	}
+	if this.Deps != nil {
+		s = append(s, "Deps: "+fmt.Sprintf("%#v", this.Deps)+",\n")
+	}
+	if this.Ballot != nil {
+		s = append(s, "Ballot: "+fmt.Sprintf("%#v", this.Ballot)+",\n")
+	}
+	if this.OriginalBallot != nil {
+		s = append(s, "OriginalBallot: "+fmt.Sprintf("%#v", this.OriginalBallot)+",\n")
+	}
+	if this.IsFromLeader != nil {
+		s = append(s, "IsFromLeader: "+valueToGoStringMessage(this.IsFromLeader, "bool")+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func (this *Commit) String() string {
+func (this *Commit) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Commit{`,
-		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
-		`InstancdID:` + valueToStringMessage(this.InstancdID) + `,`,
-		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
-		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
-		`From:` + valueToStringMessage(this.From) + `,`,
-		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
-		`}`,
-	}, "")
-	return s
+	s := make([]string, 0, 9)
+	s = append(s, "&protobuf.Commit{")
+	if this.ReplicaID != nil {
+		s = append(s, "ReplicaID: "+valueToGoStringMessage(this.ReplicaID, "uint32")+",\n")
+	}
+	if this.InstancdID != nil {
+		s = append(s, "InstancdID: "+valueToGoStringMessage(this.InstancdID, "uint64")+",\n")
+	}
+	if this.Cmds != nil {
+		s = append(s, "Cmds: "+fmt.Sprintf("%#v", this.Cmds)+",\n")
+	}
+	if this.Deps != nil {
+		s = append(s, "Deps: "+fmt.Sprintf("%#v", this.Deps)+",\n")
+	}
+	if this.From != nil {
+		s = append(s, "From: "+valueToGoStringMessage(this.From, "uint32")+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
 }
-func valueToStringMessage(v interface{}) string {
+func valueToGoStringMessage(v interface{}, typ string) string {
 	rv := reflect.ValueOf(v)
 	if rv.IsNil() {
 		return "nil"
 	}
 	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("*%v", pv)
+	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
+}
+func extensionToGoStringMessage(e map[int32]github_com_gogo_protobuf_proto.Extension) string {
+	if e == nil {
+		return "nil"
+	}
+	s := "map[int32]proto.Extension{"
+	keys := make([]int, 0, len(e))
+	for k := range e {
+		keys = append(keys, int(k))
+	}
+	sort.Ints(keys)
+	ss := []string{}
+	for _, k := range keys {
+		ss = append(ss, strconv.Itoa(k)+": "+e[int32(k)].GoString())
+	}
+	s += strings.Join(ss, ",") + "}"
+	return s
+}
+func (m *Ballot) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *Ballot) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.Epoch == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Epoch")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.Epoch))
+	}
+	if m.Number == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Number")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.Number))
+	}
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x18
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	return i, nil
+}
+
+func (m *PreAccept) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *PreAccept) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if len(m.Cmds) > 0 {
+		for _, b := range m.Cmds {
+			data[i] = 0x1a
+			i++
+			i = encodeVarintMessage(data, i, uint64(len(b)))
+			i += copy(data[i:], b)
+		}
+	}
+	if len(m.Deps) > 0 {
+		for _, num := range m.Deps {
+			data[i] = 0x20
+			i++
+			i = encodeVarintMessage(data, i, uint64(num))
+		}
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x2a
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n1, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n1
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x30
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *PreAcceptOK) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *PreAcceptOK) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x18
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *PreAcceptReply) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *PreAcceptReply) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if len(m.Deps) > 0 {
+		for _, num := range m.Deps {
+			data[i] = 0x18
+			i++
+			i = encodeVarintMessage(data, i, uint64(num))
+		}
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x22
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n2, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n2
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x28
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *Accept) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *Accept) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if len(m.Cmds) > 0 {
+		for _, b := range m.Cmds {
+			data[i] = 0x1a
+			i++
+			i = encodeVarintMessage(data, i, uint64(len(b)))
+			i += copy(data[i:], b)
+		}
+	}
+	if len(m.Deps) > 0 {
+		for _, num := range m.Deps {
+			data[i] = 0x20
+			i++
+			i = encodeVarintMessage(data, i, uint64(num))
+		}
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x2a
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n3, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n3
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x30
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *AcceptReply) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *AcceptReply) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x1a
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n4, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n4
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x20
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *Prepare) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *Prepare) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x1a
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n5, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n5
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x20
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *PrepareReply) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *PrepareReply) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstanceID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
+	}
+	if m.State == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("State")
+	} else {
+		data[i] = 0x18
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.State))
+	}
+	if len(m.Cmds) > 0 {
+		for _, b := range m.Cmds {
+			data[i] = 0x22
+			i++
+			i = encodeVarintMessage(data, i, uint64(len(b)))
+			i += copy(data[i:], b)
+		}
+	}
+	if len(m.Deps) > 0 {
+		for _, num := range m.Deps {
+			data[i] = 0x28
+			i++
+			i = encodeVarintMessage(data, i, uint64(num))
+		}
+	}
+	if m.Ballot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	} else {
+		data[i] = 0x32
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
+		n6, err := m.Ballot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n6
+	}
+	if m.OriginalBallot == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("OriginalBallot")
+	} else {
+		data[i] = 0x3a
+		i++
+		i = encodeVarintMessage(data, i, uint64(m.OriginalBallot.Size()))
+		n7, err := m.OriginalBallot.MarshalTo(data[i:])
+		if err != nil {
+			return 0, err
+		}
+		i += n7
+	}
+	if m.IsFromLeader == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("IsFromLeader")
+	} else {
+		data[i] = 0x40
+		i++
+		if *m.IsFromLeader {
+			data[i] = 1
+		} else {
+			data[i] = 0
+		}
+		i++
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x48
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func (m *Commit) Marshal() (data []byte, err error) {
+	size := m.Size()
+	data = make([]byte, size)
+	n, err := m.MarshalTo(data)
+	if err != nil {
+		return nil, err
+	}
+	return data[:n], nil
+}
+
+func (m *Commit) MarshalTo(data []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.ReplicaID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	} else {
+		data[i] = 0x8
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
+	}
+	if m.InstancdID == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstancdID")
+	} else {
+		data[i] = 0x10
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.InstancdID))
+	}
+	if len(m.Cmds) > 0 {
+		for _, b := range m.Cmds {
+			data[i] = 0x1a
+			i++
+			i = encodeVarintMessage(data, i, uint64(len(b)))
+			i += copy(data[i:], b)
+		}
+	}
+	if len(m.Deps) > 0 {
+		for _, num := range m.Deps {
+			data[i] = 0x20
+			i++
+			i = encodeVarintMessage(data, i, uint64(num))
+		}
+	}
+	if m.From == nil {
+		return 0, github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
+	} else {
+		data[i] = 0x28
+		i++
+		i = encodeVarintMessage(data, i, uint64(*m.From))
+	}
+	return i, nil
+}
+
+func encodeFixed64Message(data []byte, offset int, v uint64) int {
+	data[offset] = uint8(v)
+	data[offset+1] = uint8(v >> 8)
+	data[offset+2] = uint8(v >> 16)
+	data[offset+3] = uint8(v >> 24)
+	data[offset+4] = uint8(v >> 32)
+	data[offset+5] = uint8(v >> 40)
+	data[offset+6] = uint8(v >> 48)
+	data[offset+7] = uint8(v >> 56)
+	return offset + 8
+}
+func encodeFixed32Message(data []byte, offset int, v uint32) int {
+	data[offset] = uint8(v)
+	data[offset+1] = uint8(v >> 8)
+	data[offset+2] = uint8(v >> 16)
+	data[offset+3] = uint8(v >> 24)
+	return offset + 4
+}
+func encodeVarintMessage(data []byte, offset int, v uint64) int {
+	for v >= 1<<7 {
+		data[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	data[offset] = uint8(v)
+	return offset + 1
+}
+func NewPopulatedBallot(r randyMessage, easy bool) *Ballot {
+	this := &Ballot{}
+	v1 := uint32(r.Uint32())
+	this.Epoch = &v1
+	v2 := uint64(uint64(r.Uint32()))
+	this.Number = &v2
+	v3 := uint32(r.Uint32())
+	this.ReplicaID = &v3
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedPreAccept(r randyMessage, easy bool) *PreAccept {
+	this := &PreAccept{}
+	v4 := uint32(r.Uint32())
+	this.ReplicaID = &v4
+	v5 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v5
+	if r.Intn(10) != 0 {
+		v6 := r.Intn(10)
+		this.Cmds = make([][]byte, v6)
+		for i := 0; i < v6; i++ {
+			v7 := r.Intn(100)
+			this.Cmds[i] = make([]byte, v7)
+			for j := 0; j < v7; j++ {
+				this.Cmds[i][j] = byte(r.Intn(256))
+			}
+		}
+	}
+	if r.Intn(10) != 0 {
+		v8 := r.Intn(10)
+		this.Deps = make([]uint64, v8)
+		for i := 0; i < v8; i++ {
+			this.Deps[i] = uint64(uint64(r.Uint32()))
+		}
+	}
+	this.Ballot = NewPopulatedBallot(r, easy)
+	v9 := uint32(r.Uint32())
+	this.From = &v9
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedPreAcceptOK(r randyMessage, easy bool) *PreAcceptOK {
+	this := &PreAcceptOK{}
+	v10 := uint32(r.Uint32())
+	this.ReplicaID = &v10
+	v11 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v11
+	v12 := uint32(r.Uint32())
+	this.From = &v12
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedPreAcceptReply(r randyMessage, easy bool) *PreAcceptReply {
+	this := &PreAcceptReply{}
+	v13 := uint32(r.Uint32())
+	this.ReplicaID = &v13
+	v14 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v14
+	if r.Intn(10) != 0 {
+		v15 := r.Intn(10)
+		this.Deps = make([]uint64, v15)
+		for i := 0; i < v15; i++ {
+			this.Deps[i] = uint64(uint64(r.Uint32()))
+		}
+	}
+	this.Ballot = NewPopulatedBallot(r, easy)
+	v16 := uint32(r.Uint32())
+	this.From = &v16
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedAccept(r randyMessage, easy bool) *Accept {
+	this := &Accept{}
+	v17 := uint32(r.Uint32())
+	this.ReplicaID = &v17
+	v18 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v18
+	if r.Intn(10) != 0 {
+		v19 := r.Intn(10)
+		this.Cmds = make([][]byte, v19)
+		for i := 0; i < v19; i++ {
+			v20 := r.Intn(100)
+			this.Cmds[i] = make([]byte, v20)
+			for j := 0; j < v20; j++ {
+				this.Cmds[i][j] = byte(r.Intn(256))
+			}
+		}
+	}
+	if r.Intn(10) != 0 {
+		v21 := r.Intn(10)
+		this.Deps = make([]uint64, v21)
+		for i := 0; i < v21; i++ {
+			this.Deps[i] = uint64(uint64(r.Uint32()))
+		}
+	}
+	this.Ballot = NewPopulatedBallot(r, easy)
+	v22 := uint32(r.Uint32())
+	this.From = &v22
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedAcceptReply(r randyMessage, easy bool) *AcceptReply {
+	this := &AcceptReply{}
+	v23 := uint32(r.Uint32())
+	this.ReplicaID = &v23
+	v24 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v24
+	this.Ballot = NewPopulatedBallot(r, easy)
+	v25 := uint32(r.Uint32())
+	this.From = &v25
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedPrepare(r randyMessage, easy bool) *Prepare {
+	this := &Prepare{}
+	v26 := uint32(r.Uint32())
+	this.ReplicaID = &v26
+	v27 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v27
+	this.Ballot = NewPopulatedBallot(r, easy)
+	v28 := uint32(r.Uint32())
+	this.From = &v28
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedPrepareReply(r randyMessage, easy bool) *PrepareReply {
+	this := &PrepareReply{}
+	v29 := uint32(r.Uint32())
+	this.ReplicaID = &v29
+	v30 := uint64(uint64(r.Uint32()))
+	this.InstanceID = &v30
+	v31 := State([]int32{1, 2, 3, 4, 5}[r.Intn(5)])
+	this.State = &v31
+	if r.Intn(10) != 0 {
+		v32 := r.Intn(10)
+		this.Cmds = make([][]byte, v32)
+		for i := 0; i < v32; i++ {
+			v33 := r.Intn(100)
+			this.Cmds[i] = make([]byte, v33)
+			for j := 0; j < v33; j++ {
+				this.Cmds[i][j] = byte(r.Intn(256))
+			}
+		}
+	}
+	if r.Intn(10) != 0 {
+		v34 := r.Intn(10)
+		this.Deps = make([]uint64, v34)
+		for i := 0; i < v34; i++ {
+			this.Deps[i] = uint64(uint64(r.Uint32()))
+		}
+	}
+	this.Ballot = NewPopulatedBallot(r, easy)
+	this.OriginalBallot = NewPopulatedBallot(r, easy)
+	v35 := bool(bool(r.Intn(2) == 0))
+	this.IsFromLeader = &v35
+	v36 := uint32(r.Uint32())
+	this.From = &v36
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+func NewPopulatedCommit(r randyMessage, easy bool) *Commit {
+	this := &Commit{}
+	v37 := uint32(r.Uint32())
+	this.ReplicaID = &v37
+	v38 := uint64(uint64(r.Uint32()))
+	this.InstancdID = &v38
+	if r.Intn(10) != 0 {
+		v39 := r.Intn(10)
+		this.Cmds = make([][]byte, v39)
+		for i := 0; i < v39; i++ {
+			v40 := r.Intn(100)
+			this.Cmds[i] = make([]byte, v40)
+			for j := 0; j < v40; j++ {
+				this.Cmds[i][j] = byte(r.Intn(256))
+			}
+		}
+	}
+	if r.Intn(10) != 0 {
+		v41 := r.Intn(10)
+		this.Deps = make([]uint64, v41)
+		for i := 0; i < v41; i++ {
+			this.Deps[i] = uint64(uint64(r.Uint32()))
+		}
+	}
+	v42 := uint32(r.Uint32())
+	this.From = &v42
+	if !easy && r.Intn(10) != 0 {
+	}
+	return this
+}
+
+type randyMessage interface {
+	Float32() float32
+	Float64() float64
+	Int63() int64
+	Int31() int32
+	Uint32() uint32
+	Intn(n int) int
+}
+
+func randUTF8RuneMessage(r randyMessage) rune {
+	ru := r.Intn(62)
+	if ru < 10 {
+		return rune(ru + 48)
+	} else if ru < 36 {
+		return rune(ru + 55)
+	}
+	return rune(ru + 61)
+}
+func randStringMessage(r randyMessage) string {
+	v43 := r.Intn(100)
+	tmps := make([]rune, v43)
+	for i := 0; i < v43; i++ {
+		tmps[i] = randUTF8RuneMessage(r)
+	}
+	return string(tmps)
+}
+func randUnrecognizedMessage(r randyMessage, maxFieldNumber int) (data []byte) {
+	l := r.Intn(5)
+	for i := 0; i < l; i++ {
+		wire := r.Intn(4)
+		if wire == 3 {
+			wire = 5
+		}
+		fieldNumber := maxFieldNumber + r.Intn(100)
+		data = randFieldMessage(data, r, fieldNumber, wire)
+	}
+	return data
+}
+func randFieldMessage(data []byte, r randyMessage, fieldNumber int, wire int) []byte {
+	key := uint32(fieldNumber)<<3 | uint32(wire)
+	switch wire {
+	case 0:
+		data = encodeVarintPopulateMessage(data, uint64(key))
+		v44 := r.Int63()
+		if r.Intn(2) == 0 {
+			v44 *= -1
+		}
+		data = encodeVarintPopulateMessage(data, uint64(v44))
+	case 1:
+		data = encodeVarintPopulateMessage(data, uint64(key))
+		data = append(data, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	case 2:
+		data = encodeVarintPopulateMessage(data, uint64(key))
+		ll := r.Intn(100)
+		data = encodeVarintPopulateMessage(data, uint64(ll))
+		for j := 0; j < ll; j++ {
+			data = append(data, byte(r.Intn(256)))
+		}
+	default:
+		data = encodeVarintPopulateMessage(data, uint64(key))
+		data = append(data, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
+	}
+	return data
+}
+func encodeVarintPopulateMessage(data []byte, v uint64) []byte {
+	for v >= 1<<7 {
+		data = append(data, uint8(uint64(v)&0x7f|0x80))
+		v >>= 7
+	}
+	data = append(data, uint8(v))
+	return data
 }
 func (m *Ballot) Size() (n int) {
 	var l int
@@ -1912,11 +2484,9 @@ func (m *Ballot) Size() (n int) {
 	if m.ReplicaID != nil {
 		n += 1 + sovMessage(uint64(*m.ReplicaID))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *PreAccept) Size() (n int) {
 	var l int
 	_ = l
@@ -1944,11 +2514,9 @@ func (m *PreAccept) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *PreAcceptOK) Size() (n int) {
 	var l int
 	_ = l
@@ -1961,11 +2529,9 @@ func (m *PreAcceptOK) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *PreAcceptReply) Size() (n int) {
 	var l int
 	_ = l
@@ -1987,11 +2553,9 @@ func (m *PreAcceptReply) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *Accept) Size() (n int) {
 	var l int
 	_ = l
@@ -2019,11 +2583,9 @@ func (m *Accept) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *AcceptReply) Size() (n int) {
 	var l int
 	_ = l
@@ -2040,11 +2602,9 @@ func (m *AcceptReply) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *Prepare) Size() (n int) {
 	var l int
 	_ = l
@@ -2061,11 +2621,9 @@ func (m *Prepare) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *PrepareReply) Size() (n int) {
 	var l int
 	_ = l
@@ -2103,11 +2661,9 @@ func (m *PrepareReply) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
+
 func (m *Commit) Size() (n int) {
 	var l int
 	_ = l
@@ -2131,9 +2687,6 @@ func (m *Commit) Size() (n int) {
 	if m.From != nil {
 		n += 1 + sovMessage(uint64(*m.From))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
 
@@ -2150,2055 +2703,1909 @@ func sovMessage(x uint64) (n int) {
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func NewPopulatedBallot(r randyMessage, easy bool) *Ballot {
-	this := &Ballot{}
-	v1 := r.Uint32()
-	this.Epoch = &v1
-	v2 := uint64(r.Uint32())
-	this.Number = &v2
-	v3 := r.Uint32()
-	this.ReplicaID = &v3
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 4)
-	}
-	return this
-}
-
-func NewPopulatedPreAccept(r randyMessage, easy bool) *PreAccept {
-	this := &PreAccept{}
-	v4 := r.Uint32()
-	this.ReplicaID = &v4
-	v5 := uint64(r.Uint32())
-	this.InstanceID = &v5
-	if r.Intn(10) != 0 {
-		v6 := r.Intn(100)
-		this.Cmds = make([][]byte, v6)
-		for i := 0; i < v6; i++ {
-			v7 := r.Intn(100)
-			this.Cmds[i] = make([]byte, v7)
-			for j := 0; j < v7; j++ {
-				this.Cmds[i][j] = byte(r.Intn(256))
-			}
-		}
-	}
-	if r.Intn(10) != 0 {
-		v8 := r.Intn(100)
-		this.Deps = make([]uint64, v8)
-		for i := 0; i < v8; i++ {
-			this.Deps[i] = uint64(r.Uint32())
-		}
-	}
-	this.Ballot = NewPopulatedBallot(r, easy)
-	v9 := r.Uint32()
-	this.From = &v9
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 7)
-	}
-	return this
-}
-
-func NewPopulatedPreAcceptOK(r randyMessage, easy bool) *PreAcceptOK {
-	this := &PreAcceptOK{}
-	v10 := r.Uint32()
-	this.ReplicaID = &v10
-	v11 := uint64(r.Uint32())
-	this.InstanceID = &v11
-	v12 := r.Uint32()
-	this.From = &v12
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 4)
-	}
-	return this
-}
-
-func NewPopulatedPreAcceptReply(r randyMessage, easy bool) *PreAcceptReply {
-	this := &PreAcceptReply{}
-	v13 := r.Uint32()
-	this.ReplicaID = &v13
-	v14 := uint64(r.Uint32())
-	this.InstanceID = &v14
-	if r.Intn(10) != 0 {
-		v15 := r.Intn(100)
-		this.Deps = make([]uint64, v15)
-		for i := 0; i < v15; i++ {
-			this.Deps[i] = uint64(r.Uint32())
-		}
-	}
-	this.Ballot = NewPopulatedBallot(r, easy)
-	v16 := r.Uint32()
-	this.From = &v16
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 6)
-	}
-	return this
-}
-
-func NewPopulatedAccept(r randyMessage, easy bool) *Accept {
-	this := &Accept{}
-	v17 := r.Uint32()
-	this.ReplicaID = &v17
-	v18 := uint64(r.Uint32())
-	this.InstanceID = &v18
-	if r.Intn(10) != 0 {
-		v19 := r.Intn(100)
-		this.Cmds = make([][]byte, v19)
-		for i := 0; i < v19; i++ {
-			v20 := r.Intn(100)
-			this.Cmds[i] = make([]byte, v20)
-			for j := 0; j < v20; j++ {
-				this.Cmds[i][j] = byte(r.Intn(256))
-			}
-		}
-	}
-	if r.Intn(10) != 0 {
-		v21 := r.Intn(100)
-		this.Deps = make([]uint64, v21)
-		for i := 0; i < v21; i++ {
-			this.Deps[i] = uint64(r.Uint32())
-		}
-	}
-	this.Ballot = NewPopulatedBallot(r, easy)
-	v22 := r.Uint32()
-	this.From = &v22
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 7)
-	}
-	return this
-}
-
-func NewPopulatedAcceptReply(r randyMessage, easy bool) *AcceptReply {
-	this := &AcceptReply{}
-	v23 := r.Uint32()
-	this.ReplicaID = &v23
-	v24 := uint64(r.Uint32())
-	this.InstanceID = &v24
-	this.Ballot = NewPopulatedBallot(r, easy)
-	v25 := r.Uint32()
-	this.From = &v25
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 5)
-	}
-	return this
-}
-
-func NewPopulatedPrepare(r randyMessage, easy bool) *Prepare {
-	this := &Prepare{}
-	v26 := r.Uint32()
-	this.ReplicaID = &v26
-	v27 := uint64(r.Uint32())
-	this.InstanceID = &v27
-	this.Ballot = NewPopulatedBallot(r, easy)
-	v28 := r.Uint32()
-	this.From = &v28
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 5)
-	}
-	return this
-}
-
-func NewPopulatedPrepareReply(r randyMessage, easy bool) *PrepareReply {
-	this := &PrepareReply{}
-	v29 := r.Uint32()
-	this.ReplicaID = &v29
-	v30 := uint64(r.Uint32())
-	this.InstanceID = &v30
-	v31 := State([]int32{1, 2, 3, 4, 5}[r.Intn(5)])
-	this.State = &v31
-	if r.Intn(10) != 0 {
-		v32 := r.Intn(100)
-		this.Cmds = make([][]byte, v32)
-		for i := 0; i < v32; i++ {
-			v33 := r.Intn(100)
-			this.Cmds[i] = make([]byte, v33)
-			for j := 0; j < v33; j++ {
-				this.Cmds[i][j] = byte(r.Intn(256))
-			}
-		}
-	}
-	if r.Intn(10) != 0 {
-		v34 := r.Intn(100)
-		this.Deps = make([]uint64, v34)
-		for i := 0; i < v34; i++ {
-			this.Deps[i] = uint64(r.Uint32())
-		}
-	}
-	this.Ballot = NewPopulatedBallot(r, easy)
-	this.OriginalBallot = NewPopulatedBallot(r, easy)
-	v35 := bool(r.Intn(2) == 0)
-	this.IsFromLeader = &v35
-	v36 := r.Uint32()
-	this.From = &v36
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 10)
-	}
-	return this
-}
-
-func NewPopulatedCommit(r randyMessage, easy bool) *Commit {
-	this := &Commit{}
-	v37 := r.Uint32()
-	this.ReplicaID = &v37
-	v38 := uint64(r.Uint32())
-	this.InstancdID = &v38
-	if r.Intn(10) != 0 {
-		v39 := r.Intn(100)
-		this.Cmds = make([][]byte, v39)
-		for i := 0; i < v39; i++ {
-			v40 := r.Intn(100)
-			this.Cmds[i] = make([]byte, v40)
-			for j := 0; j < v40; j++ {
-				this.Cmds[i][j] = byte(r.Intn(256))
-			}
-		}
-	}
-	if r.Intn(10) != 0 {
-		v41 := r.Intn(100)
-		this.Deps = make([]uint64, v41)
-		for i := 0; i < v41; i++ {
-			this.Deps[i] = uint64(r.Uint32())
-		}
-	}
-	v42 := r.Uint32()
-	this.From = &v42
-	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedMessage(r, 6)
-	}
-	return this
-}
-
-type randyMessage interface {
-	Float32() float32
-	Float64() float64
-	Int63() int64
-	Int31() int32
-	Uint32() uint32
-	Intn(n int) int
-}
-
-func randUTF8RuneMessage(r randyMessage) rune {
-	res := rune(r.Uint32() % 1112064)
-	if 55296 <= res {
-		res += 2047
-	}
-	return res
-}
-func randStringMessage(r randyMessage) string {
-	v43 := r.Intn(100)
-	tmps := make([]rune, v43)
-	for i := 0; i < v43; i++ {
-		tmps[i] = randUTF8RuneMessage(r)
-	}
-	return string(tmps)
-}
-func randUnrecognizedMessage(r randyMessage, maxFieldNumber int) (data []byte) {
-	l := r.Intn(5)
-	for i := 0; i < l; i++ {
-		wire := r.Intn(4)
-		if wire == 3 {
-			wire = 5
-		}
-		fieldNumber := maxFieldNumber + r.Intn(100)
-		data = randFieldMessage(data, r, fieldNumber, wire)
-	}
-	return data
-}
-func randFieldMessage(data []byte, r randyMessage, fieldNumber int, wire int) []byte {
-	key := uint32(fieldNumber)<<3 | uint32(wire)
-	switch wire {
-	case 0:
-		data = encodeVarintPopulateMessage(data, uint64(key))
-		data = encodeVarintPopulateMessage(data, uint64(r.Int63()))
-	case 1:
-		data = encodeVarintPopulateMessage(data, uint64(key))
-		data = append(data, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
-	case 2:
-		data = encodeVarintPopulateMessage(data, uint64(key))
-		ll := r.Intn(100)
-		data = encodeVarintPopulateMessage(data, uint64(ll))
-		for j := 0; j < ll; j++ {
-			data = append(data, byte(r.Intn(256)))
-		}
-	default:
-		data = encodeVarintPopulateMessage(data, uint64(key))
-		data = append(data, byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)), byte(r.Intn(256)))
-	}
-	return data
-}
-func encodeVarintPopulateMessage(data []byte, v uint64) []byte {
-	for v >= 1<<7 {
-		data = append(data, uint8(uint64(v)&0x7f|0x80))
-		v >>= 7
-	}
-	data = append(data, uint8(v))
-	return data
-}
-func (m *Ballot) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *Ballot) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.Epoch != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.Epoch))
-	}
-	if m.Number != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.Number))
-	}
-	if m.ReplicaID != nil {
-		data[i] = 0x18
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *PreAccept) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *PreAccept) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if len(m.Cmds) > 0 {
-		for _, b := range m.Cmds {
-			data[i] = 0x1a
-			i++
-			i = encodeVarintMessage(data, i, uint64(len(b)))
-			i += copy(data[i:], b)
-		}
-	}
-	if len(m.Deps) > 0 {
-		for _, num := range m.Deps {
-			data[i] = 0x20
-			i++
-			for num >= 1<<7 {
-				data[i] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				i++
-			}
-			data[i] = uint8(num)
-			i++
-		}
-	}
-	if m.Ballot != nil {
-		data[i] = 0x2a
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n1, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n1
-	}
-	if m.From != nil {
-		data[i] = 0x30
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *PreAcceptOK) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *PreAcceptOK) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if m.From != nil {
-		data[i] = 0x18
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *PreAcceptReply) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *PreAcceptReply) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if len(m.Deps) > 0 {
-		for _, num := range m.Deps {
-			data[i] = 0x18
-			i++
-			for num >= 1<<7 {
-				data[i] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				i++
-			}
-			data[i] = uint8(num)
-			i++
-		}
-	}
-	if m.Ballot != nil {
-		data[i] = 0x22
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n2, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n2
-	}
-	if m.From != nil {
-		data[i] = 0x28
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *Accept) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *Accept) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if len(m.Cmds) > 0 {
-		for _, b := range m.Cmds {
-			data[i] = 0x1a
-			i++
-			i = encodeVarintMessage(data, i, uint64(len(b)))
-			i += copy(data[i:], b)
-		}
-	}
-	if len(m.Deps) > 0 {
-		for _, num := range m.Deps {
-			data[i] = 0x20
-			i++
-			for num >= 1<<7 {
-				data[i] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				i++
-			}
-			data[i] = uint8(num)
-			i++
-		}
-	}
-	if m.Ballot != nil {
-		data[i] = 0x2a
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n3, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n3
-	}
-	if m.From != nil {
-		data[i] = 0x30
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *AcceptReply) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *AcceptReply) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if m.Ballot != nil {
-		data[i] = 0x1a
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n4, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n4
-	}
-	if m.From != nil {
-		data[i] = 0x20
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *Prepare) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *Prepare) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if m.Ballot != nil {
-		data[i] = 0x1a
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n5, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n5
-	}
-	if m.From != nil {
-		data[i] = 0x20
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *PrepareReply) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *PrepareReply) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstanceID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstanceID))
-	}
-	if m.State != nil {
-		data[i] = 0x18
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.State))
-	}
-	if len(m.Cmds) > 0 {
-		for _, b := range m.Cmds {
-			data[i] = 0x22
-			i++
-			i = encodeVarintMessage(data, i, uint64(len(b)))
-			i += copy(data[i:], b)
-		}
-	}
-	if len(m.Deps) > 0 {
-		for _, num := range m.Deps {
-			data[i] = 0x28
-			i++
-			for num >= 1<<7 {
-				data[i] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				i++
-			}
-			data[i] = uint8(num)
-			i++
-		}
-	}
-	if m.Ballot != nil {
-		data[i] = 0x32
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.Ballot.Size()))
-		n6, err := m.Ballot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n6
-	}
-	if m.OriginalBallot != nil {
-		data[i] = 0x3a
-		i++
-		i = encodeVarintMessage(data, i, uint64(m.OriginalBallot.Size()))
-		n7, err := m.OriginalBallot.MarshalTo(data[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n7
-	}
-	if m.IsFromLeader != nil {
-		data[i] = 0x40
-		i++
-		if *m.IsFromLeader {
-			data[i] = 1
-		} else {
-			data[i] = 0
-		}
-		i++
-	}
-	if m.From != nil {
-		data[i] = 0x48
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func (m *Commit) Marshal() (data []byte, err error) {
-	size := m.Size()
-	data = make([]byte, size)
-	n, err := m.MarshalTo(data)
-	if err != nil {
-		return nil, err
-	}
-	return data[:n], nil
-}
-
-func (m *Commit) MarshalTo(data []byte) (n int, err error) {
-	var i int
-	_ = i
-	var l int
-	_ = l
-	if m.ReplicaID != nil {
-		data[i] = 0x8
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.ReplicaID))
-	}
-	if m.InstancdID != nil {
-		data[i] = 0x10
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.InstancdID))
-	}
-	if len(m.Cmds) > 0 {
-		for _, b := range m.Cmds {
-			data[i] = 0x1a
-			i++
-			i = encodeVarintMessage(data, i, uint64(len(b)))
-			i += copy(data[i:], b)
-		}
-	}
-	if len(m.Deps) > 0 {
-		for _, num := range m.Deps {
-			data[i] = 0x20
-			i++
-			for num >= 1<<7 {
-				data[i] = uint8(uint64(num)&0x7f | 0x80)
-				num >>= 7
-				i++
-			}
-			data[i] = uint8(num)
-			i++
-		}
-	}
-	if m.From != nil {
-		data[i] = 0x28
-		i++
-		i = encodeVarintMessage(data, i, uint64(*m.From))
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(data[i:], m.XXX_unrecognized)
-	}
-	return i, nil
-}
-func encodeFixed64Message(data []byte, offset int, v uint64) int {
-	data[offset] = uint8(v)
-	data[offset+1] = uint8(v >> 8)
-	data[offset+2] = uint8(v >> 16)
-	data[offset+3] = uint8(v >> 24)
-	data[offset+4] = uint8(v >> 32)
-	data[offset+5] = uint8(v >> 40)
-	data[offset+6] = uint8(v >> 48)
-	data[offset+7] = uint8(v >> 56)
-	return offset + 8
-}
-func encodeFixed32Message(data []byte, offset int, v uint32) int {
-	data[offset] = uint8(v)
-	data[offset+1] = uint8(v >> 8)
-	data[offset+2] = uint8(v >> 16)
-	data[offset+3] = uint8(v >> 24)
-	return offset + 4
-}
-func encodeVarintMessage(data []byte, offset int, v uint64) int {
-	for v >= 1<<7 {
-		data[offset] = uint8(v&0x7f | 0x80)
-		v >>= 7
-		offset++
-	}
-	data[offset] = uint8(v)
-	return offset + 1
-}
-func (this *Ballot) GoString() string {
+func (this *Ballot) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.Ballot{` + `Epoch:` + valueToGoStringMessage(this.Epoch, "uint32"), `Number:` + valueToGoStringMessage(this.Number, "uint64"), `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&Ballot{`,
+		`Epoch:` + valueToStringMessage(this.Epoch) + `,`,
+		`Number:` + valueToStringMessage(this.Number) + `,`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *PreAccept) GoString() string {
+func (this *PreAccept) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.PreAccept{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `Cmds:` + fmt1.Sprintf("%#v", this.Cmds), `Deps:` + fmt1.Sprintf("%#v", this.Deps), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&PreAccept{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
+		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *PreAcceptOK) GoString() string {
+func (this *PreAcceptOK) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.PreAcceptOK{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&PreAcceptOK{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *PreAcceptReply) GoString() string {
+func (this *PreAcceptReply) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.PreAcceptReply{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `Deps:` + fmt1.Sprintf("%#v", this.Deps), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&PreAcceptReply{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *Accept) GoString() string {
+func (this *Accept) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.Accept{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `Cmds:` + fmt1.Sprintf("%#v", this.Cmds), `Deps:` + fmt1.Sprintf("%#v", this.Deps), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&Accept{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
+		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *AcceptReply) GoString() string {
+func (this *AcceptReply) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.AcceptReply{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&AcceptReply{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *Prepare) GoString() string {
+func (this *Prepare) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.Prepare{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&Prepare{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *PrepareReply) GoString() string {
+func (this *PrepareReply) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.PrepareReply{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstanceID:` + valueToGoStringMessage(this.InstanceID, "uint64"), `State:` + valueToGoStringMessage(this.State, "protobuf.State"), `Cmds:` + fmt1.Sprintf("%#v", this.Cmds), `Deps:` + fmt1.Sprintf("%#v", this.Deps), `Ballot:` + fmt1.Sprintf("%#v", this.Ballot), `OriginalBallot:` + fmt1.Sprintf("%#v", this.OriginalBallot), `IsFromLeader:` + valueToGoStringMessage(this.IsFromLeader, "bool"), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&PrepareReply{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstanceID:` + valueToStringMessage(this.InstanceID) + `,`,
+		`State:` + valueToStringMessage(this.State) + `,`,
+		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
+		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
+		`Ballot:` + strings.Replace(fmt.Sprintf("%v", this.Ballot), "Ballot", "Ballot", 1) + `,`,
+		`OriginalBallot:` + strings.Replace(fmt.Sprintf("%v", this.OriginalBallot), "Ballot", "Ballot", 1) + `,`,
+		`IsFromLeader:` + valueToStringMessage(this.IsFromLeader) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func (this *Commit) GoString() string {
+func (this *Commit) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings1.Join([]string{`&protobuf.Commit{` + `ReplicaID:` + valueToGoStringMessage(this.ReplicaID, "uint32"), `InstancdID:` + valueToGoStringMessage(this.InstancdID, "uint64"), `Cmds:` + fmt1.Sprintf("%#v", this.Cmds), `Deps:` + fmt1.Sprintf("%#v", this.Deps), `From:` + valueToGoStringMessage(this.From, "uint32"), `XXX_unrecognized:` + fmt1.Sprintf("%#v", this.XXX_unrecognized) + `}`}, ", ")
+	s := strings.Join([]string{`&Commit{`,
+		`ReplicaID:` + valueToStringMessage(this.ReplicaID) + `,`,
+		`InstancdID:` + valueToStringMessage(this.InstancdID) + `,`,
+		`Cmds:` + fmt.Sprintf("%v", this.Cmds) + `,`,
+		`Deps:` + fmt.Sprintf("%v", this.Deps) + `,`,
+		`From:` + valueToStringMessage(this.From) + `,`,
+		`}`,
+	}, "")
 	return s
 }
-func valueToGoStringMessage(v interface{}, typ string) string {
-	rv := reflect1.ValueOf(v)
+func valueToStringMessage(v interface{}) string {
+	rv := reflect.ValueOf(v)
 	if rv.IsNil() {
 		return "nil"
 	}
-	pv := reflect1.Indirect(rv).Interface()
-	return fmt1.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("*%v", pv)
 }
-func extensionToGoStringMessage(e map[int32]code_google_com_p_gogoprotobuf_proto1.Extension) string {
-	if e == nil {
-		return "nil"
-	}
-	s := "map[int32]proto.Extension{"
-	keys := make([]int, 0, len(e))
-	for k := range e {
-		keys = append(keys, int(k))
-	}
-	sort.Ints(keys)
-	ss := []string{}
-	for _, k := range keys {
-		ss = append(ss, strconv.Itoa(k)+": "+e[int32(k)].GoString())
-	}
-	s += strings1.Join(ss, ",") + "}"
-	return s
-}
-func (this *Ballot) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
+func (m *Ballot) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return fmt2.Errorf("that == nil && this != nil")
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Ballot: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Ballot: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Epoch", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Epoch = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Number", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Number = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000004)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Epoch")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Number")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
 	}
 
-	that1, ok := that.(*Ballot)
-	if !ok {
-		return fmt2.Errorf("that is not of type *Ballot")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *Ballot but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *Ballotbut is not nil && this == nil")
-	}
-	if this.Epoch != nil && that1.Epoch != nil {
-		if *this.Epoch != *that1.Epoch {
-			return fmt2.Errorf("Epoch this(%v) Not Equal that(%v)", *this.Epoch, *that1.Epoch)
-		}
-	} else if this.Epoch != nil {
-		return fmt2.Errorf("this.Epoch == nil && that.Epoch != nil")
-	} else if that1.Epoch != nil {
-		return fmt2.Errorf("Epoch this(%v) Not Equal that(%v)", this.Epoch, that1.Epoch)
-	}
-	if this.Number != nil && that1.Number != nil {
-		if *this.Number != *that1.Number {
-			return fmt2.Errorf("Number this(%v) Not Equal that(%v)", *this.Number, *that1.Number)
-		}
-	} else if this.Number != nil {
-		return fmt2.Errorf("this.Number == nil && that.Number != nil")
-	} else if that1.Number != nil {
-		return fmt2.Errorf("Number this(%v) Not Equal that(%v)", this.Number, that1.Number)
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *Ballot) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *PreAccept) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PreAccept: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PreAccept: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cmds", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cmds = append(m.Cmds, make([]byte, postIndex-iNdEx))
+			copy(m.Cmds[len(m.Cmds)-1], data[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deps", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Deps = append(m.Deps, v)
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000004)
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000008)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*Ballot)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.Epoch != nil && that1.Epoch != nil {
-		if *this.Epoch != *that1.Epoch {
-			return false
-		}
-	} else if this.Epoch != nil {
-		return false
-	} else if that1.Epoch != nil {
-		return false
-	}
-	if this.Number != nil && that1.Number != nil {
-		if *this.Number != *that1.Number {
-			return false
-		}
-	} else if this.Number != nil {
-		return false
-	} else if that1.Number != nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *PreAccept) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*PreAccept)
-	if !ok {
-		return fmt2.Errorf("that is not of type *PreAccept")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *PreAccept but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *PreAcceptbut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return fmt2.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return fmt2.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return fmt2.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return fmt2.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *PreAccept) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *PreAcceptOK) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PreAcceptOK: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PreAcceptOK: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000004)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*PreAccept)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return false
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return false
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return false
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return false
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *PreAcceptOK) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*PreAcceptOK)
-	if !ok {
-		return fmt2.Errorf("that is not of type *PreAcceptOK")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *PreAcceptOK but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *PreAcceptOKbut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *PreAcceptOK) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *PreAcceptReply) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PreAcceptReply: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PreAcceptReply: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deps", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Deps = append(m.Deps, v)
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000004)
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000008)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*PreAcceptOK)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *PreAcceptReply) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*PreAcceptReply)
-	if !ok {
-		return fmt2.Errorf("that is not of type *PreAcceptReply")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *PreAcceptReply but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *PreAcceptReplybut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return fmt2.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return fmt2.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *PreAcceptReply) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *Accept) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Accept: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Accept: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cmds", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cmds = append(m.Cmds, make([]byte, postIndex-iNdEx))
+			copy(m.Cmds[len(m.Cmds)-1], data[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deps", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Deps = append(m.Deps, v)
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000004)
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000008)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*PreAcceptReply)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return false
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return false
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *Accept) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*Accept)
-	if !ok {
-		return fmt2.Errorf("that is not of type *Accept")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *Accept but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *Acceptbut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return fmt2.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return fmt2.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return fmt2.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return fmt2.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *Accept) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *AcceptReply) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AcceptReply: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AcceptReply: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000004)
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000008)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*Accept)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return false
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return false
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return false
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return false
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *AcceptReply) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*AcceptReply)
-	if !ok {
-		return fmt2.Errorf("that is not of type *AcceptReply")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *AcceptReply but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *AcceptReplybut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *AcceptReply) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *Prepare) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Prepare: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Prepare: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000004)
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000008)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*AcceptReply)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *Prepare) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*Prepare)
-	if !ok {
-		return fmt2.Errorf("that is not of type *Prepare")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *Prepare but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *Preparebut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *Prepare) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *PrepareReply) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PrepareReply: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PrepareReply: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstanceID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstanceID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			var v State
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (State(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.State = &v
+			hasFields[0] |= uint64(0x00000004)
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cmds", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cmds = append(m.Cmds, make([]byte, postIndex-iNdEx))
+			copy(m.Cmds[len(m.Cmds)-1], data[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deps", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Deps = append(m.Deps, v)
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Ballot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Ballot == nil {
+				m.Ballot = &Ballot{}
+			}
+			if err := m.Ballot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000008)
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OriginalBallot", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				msglen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.OriginalBallot == nil {
+				m.OriginalBallot = &Ballot{}
+			}
+			if err := m.OriginalBallot.Unmarshal(data[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+			hasFields[0] |= uint64(0x00000010)
+		case 8:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IsFromLeader", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			b := bool(v != 0)
+			m.IsFromLeader = &b
+			hasFields[0] |= uint64(0x00000020)
+		case 9:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000040)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstanceID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("State")
+	}
+	if hasFields[0]&uint64(0x00000008) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("Ballot")
+	}
+	if hasFields[0]&uint64(0x00000010) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("OriginalBallot")
+	}
+	if hasFields[0]&uint64(0x00000020) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("IsFromLeader")
+	}
+	if hasFields[0]&uint64(0x00000040) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*Prepare)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *PrepareReply) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*PrepareReply)
-	if !ok {
-		return fmt2.Errorf("that is not of type *PrepareReply")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *PrepareReply but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *PrepareReplybut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", *this.InstanceID, *that1.InstanceID)
-		}
-	} else if this.InstanceID != nil {
-		return fmt2.Errorf("this.InstanceID == nil && that.InstanceID != nil")
-	} else if that1.InstanceID != nil {
-		return fmt2.Errorf("InstanceID this(%v) Not Equal that(%v)", this.InstanceID, that1.InstanceID)
-	}
-	if this.State != nil && that1.State != nil {
-		if *this.State != *that1.State {
-			return fmt2.Errorf("State this(%v) Not Equal that(%v)", *this.State, *that1.State)
-		}
-	} else if this.State != nil {
-		return fmt2.Errorf("this.State == nil && that.State != nil")
-	} else if that1.State != nil {
-		return fmt2.Errorf("State this(%v) Not Equal that(%v)", this.State, that1.State)
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return fmt2.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return fmt2.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return fmt2.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return fmt2.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return fmt2.Errorf("Ballot this(%v) Not Equal that(%v)", this.Ballot, that1.Ballot)
-	}
-	if !this.OriginalBallot.Equal(that1.OriginalBallot) {
-		return fmt2.Errorf("OriginalBallot this(%v) Not Equal that(%v)", this.OriginalBallot, that1.OriginalBallot)
-	}
-	if this.IsFromLeader != nil && that1.IsFromLeader != nil {
-		if *this.IsFromLeader != *that1.IsFromLeader {
-			return fmt2.Errorf("IsFromLeader this(%v) Not Equal that(%v)", *this.IsFromLeader, *that1.IsFromLeader)
-		}
-	} else if this.IsFromLeader != nil {
-		return fmt2.Errorf("this.IsFromLeader == nil && that.IsFromLeader != nil")
-	} else if that1.IsFromLeader != nil {
-		return fmt2.Errorf("IsFromLeader this(%v) Not Equal that(%v)", this.IsFromLeader, that1.IsFromLeader)
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *PrepareReply) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func (m *Commit) Unmarshal(data []byte) error {
+	var hasFields [1]uint64
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Commit: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Commit: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReplicaID", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.ReplicaID = &v
+			hasFields[0] |= uint64(0x00000001)
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InstancdID", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.InstancdID = &v
+			hasFields[0] |= uint64(0x00000002)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cmds", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Cmds = append(m.Cmds, make([]byte, postIndex-iNdEx))
+			copy(m.Cmds[len(m.Cmds)-1], data[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Deps", wireType)
+			}
+			var v uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint64(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Deps = append(m.Deps, v)
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field From", wireType)
+			}
+			var v uint32
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				v |= (uint32(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.From = &v
+			hasFields[0] |= uint64(0x00000004)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(data[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+	if hasFields[0]&uint64(0x00000001) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("ReplicaID")
+	}
+	if hasFields[0]&uint64(0x00000002) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("InstancdID")
+	}
+	if hasFields[0]&uint64(0x00000004) == 0 {
+		return github_com_gogo_protobuf_proto.NewRequiredNotSetError("From")
 	}
 
-	that1, ok := that.(*PrepareReply)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstanceID != nil && that1.InstanceID != nil {
-		if *this.InstanceID != *that1.InstanceID {
-			return false
-		}
-	} else if this.InstanceID != nil {
-		return false
-	} else if that1.InstanceID != nil {
-		return false
-	}
-	if this.State != nil && that1.State != nil {
-		if *this.State != *that1.State {
-			return false
-		}
-	} else if this.State != nil {
-		return false
-	} else if that1.State != nil {
-		return false
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return false
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return false
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return false
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return false
-		}
-	}
-	if !this.Ballot.Equal(that1.Ballot) {
-		return false
-	}
-	if !this.OriginalBallot.Equal(that1.OriginalBallot) {
-		return false
-	}
-	if this.IsFromLeader != nil && that1.IsFromLeader != nil {
-		if *this.IsFromLeader != *that1.IsFromLeader {
-			return false
-		}
-	} else if this.IsFromLeader != nil {
-		return false
-	} else if that1.IsFromLeader != nil {
-		return false
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
-}
-func (this *Commit) VerboseEqual(that interface{}) error {
-	if that == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that == nil && this != nil")
-	}
-
-	that1, ok := that.(*Commit)
-	if !ok {
-		return fmt2.Errorf("that is not of type *Commit")
-	}
-	if that1 == nil {
-		if this == nil {
-			return nil
-		}
-		return fmt2.Errorf("that is type *Commit but is nil && this != nil")
-	} else if this == nil {
-		return fmt2.Errorf("that is type *Commitbut is not nil && this == nil")
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", *this.ReplicaID, *that1.ReplicaID)
-		}
-	} else if this.ReplicaID != nil {
-		return fmt2.Errorf("this.ReplicaID == nil && that.ReplicaID != nil")
-	} else if that1.ReplicaID != nil {
-		return fmt2.Errorf("ReplicaID this(%v) Not Equal that(%v)", this.ReplicaID, that1.ReplicaID)
-	}
-	if this.InstancdID != nil && that1.InstancdID != nil {
-		if *this.InstancdID != *that1.InstancdID {
-			return fmt2.Errorf("InstancdID this(%v) Not Equal that(%v)", *this.InstancdID, *that1.InstancdID)
-		}
-	} else if this.InstancdID != nil {
-		return fmt2.Errorf("this.InstancdID == nil && that.InstancdID != nil")
-	} else if that1.InstancdID != nil {
-		return fmt2.Errorf("InstancdID this(%v) Not Equal that(%v)", this.InstancdID, that1.InstancdID)
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return fmt2.Errorf("Cmds this(%v) Not Equal that(%v)", len(this.Cmds), len(that1.Cmds))
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return fmt2.Errorf("Cmds this[%v](%v) Not Equal that[%v](%v)", i, this.Cmds[i], i, that1.Cmds[i])
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return fmt2.Errorf("Deps this(%v) Not Equal that(%v)", len(this.Deps), len(that1.Deps))
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return fmt2.Errorf("Deps this[%v](%v) Not Equal that[%v](%v)", i, this.Deps[i], i, that1.Deps[i])
-		}
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return fmt2.Errorf("From this(%v) Not Equal that(%v)", *this.From, *that1.From)
-		}
-	} else if this.From != nil {
-		return fmt2.Errorf("this.From == nil && that.From != nil")
-	} else if that1.From != nil {
-		return fmt2.Errorf("From this(%v) Not Equal that(%v)", this.From, that1.From)
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return fmt2.Errorf("XXX_unrecognized this(%v) Not Equal that(%v)", this.XXX_unrecognized, that1.XXX_unrecognized)
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
 	}
 	return nil
 }
-func (this *Commit) Equal(that interface{}) bool {
-	if that == nil {
-		if this == nil {
-			return true
+func skipMessage(data []byte) (n int, err error) {
+	l := len(data)
+	iNdEx := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := data[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
 		}
-		return false
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if data[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+			return iNdEx, nil
+		case 1:
+			iNdEx += 8
+			return iNdEx, nil
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := data[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			iNdEx += length
+			if length < 0 {
+				return 0, ErrInvalidLengthMessage
+			}
+			return iNdEx, nil
+		case 3:
+			for {
+				var innerWire uint64
+				var start int = iNdEx
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return 0, ErrIntOverflowMessage
+					}
+					if iNdEx >= l {
+						return 0, io.ErrUnexpectedEOF
+					}
+					b := data[iNdEx]
+					iNdEx++
+					innerWire |= (uint64(b) & 0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				innerWireType := int(innerWire & 0x7)
+				if innerWireType == 4 {
+					break
+				}
+				next, err := skipMessage(data[start:])
+				if err != nil {
+					return 0, err
+				}
+				iNdEx = start + next
+			}
+			return iNdEx, nil
+		case 4:
+			return iNdEx, nil
+		case 5:
+			iNdEx += 4
+			return iNdEx, nil
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
 	}
+	panic("unreachable")
+}
 
-	that1, ok := that.(*Commit)
-	if !ok {
-		return false
-	}
-	if that1 == nil {
-		if this == nil {
-			return true
-		}
-		return false
-	} else if this == nil {
-		return false
-	}
-	if this.ReplicaID != nil && that1.ReplicaID != nil {
-		if *this.ReplicaID != *that1.ReplicaID {
-			return false
-		}
-	} else if this.ReplicaID != nil {
-		return false
-	} else if that1.ReplicaID != nil {
-		return false
-	}
-	if this.InstancdID != nil && that1.InstancdID != nil {
-		if *this.InstancdID != *that1.InstancdID {
-			return false
-		}
-	} else if this.InstancdID != nil {
-		return false
-	} else if that1.InstancdID != nil {
-		return false
-	}
-	if len(this.Cmds) != len(that1.Cmds) {
-		return false
-	}
-	for i := range this.Cmds {
-		if !bytes.Equal(this.Cmds[i], that1.Cmds[i]) {
-			return false
-		}
-	}
-	if len(this.Deps) != len(that1.Deps) {
-		return false
-	}
-	for i := range this.Deps {
-		if this.Deps[i] != that1.Deps[i] {
-			return false
-		}
-	}
-	if this.From != nil && that1.From != nil {
-		if *this.From != *that1.From {
-			return false
-		}
-	} else if this.From != nil {
-		return false
-	} else if that1.From != nil {
-		return false
-	}
-	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
-		return false
-	}
-	return true
+var (
+	ErrInvalidLengthMessage = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowMessage   = fmt.Errorf("proto: integer overflow")
+)
+
+var fileDescriptorMessage = []byte{
+	// 519 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xd4, 0x54, 0x41, 0x6b, 0xd4, 0x50,
+	0x10, 0xee, 0xdb, 0xbc, 0xa4, 0x9b, 0xd9, 0xec, 0x76, 0x79, 0x14, 0x09, 0x22, 0x41, 0x16, 0x84,
+	0xc5, 0xc3, 0x0a, 0x3d, 0xf5, 0x6a, 0x5b, 0x85, 0x45, 0x69, 0x25, 0xf5, 0x2e, 0xd9, 0xe4, 0x35,
+	0x06, 0x92, 0xbc, 0x90, 0x64, 0x0f, 0xde, 0x44, 0xf0, 0xe0, 0xcd, 0x9f, 0xe0, 0xd1, 0x83, 0xe0,
+	0x51, 0x8f, 0x1e, 0x7b, 0xf4, 0xd8, 0x63, 0xab, 0x7f, 0xc0, 0xa3, 0x47, 0xe7, 0xbd, 0xec, 0xa6,
+	0xa9, 0x46, 0x5c, 0x69, 0x41, 0x3c, 0x7c, 0x64, 0x66, 0x32, 0x93, 0xf9, 0xe6, 0x9b, 0x97, 0x07,
+	0xfd, 0x84, 0x17, 0x85, 0x17, 0xf2, 0x49, 0x96, 0x8b, 0x52, 0xb0, 0xae, 0x7a, 0xcc, 0xe6, 0x47,
+	0xd7, 0x37, 0x43, 0x11, 0x0a, 0xe5, 0xdd, 0x91, 0x56, 0xf5, 0x7e, 0xf4, 0x18, 0x8c, 0x1d, 0x2f,
+	0x8e, 0x45, 0xc9, 0x36, 0x41, 0xbf, 0x97, 0x09, 0xff, 0xa9, 0x4d, 0x6e, 0x76, 0xc6, 0x7d, 0x57,
+	0xe7, 0xd2, 0x61, 0xd7, 0xc0, 0xd8, 0x9f, 0x27, 0x33, 0x9e, 0xdb, 0x1d, 0x0c, 0x53, 0xd7, 0x48,
+	0x95, 0xc7, 0x6e, 0x80, 0xe9, 0xf2, 0x2c, 0x8e, 0x7c, 0x6f, 0xba, 0x67, 0x6b, 0xaa, 0xc2, 0xcc,
+	0x97, 0x81, 0xd1, 0x7b, 0x02, 0xe6, 0xa3, 0x9c, 0xdf, 0xf5, 0x7d, 0x9e, 0x95, 0x17, 0x73, 0xc9,
+	0x4f, 0xb9, 0xcc, 0x01, 0x98, 0xa6, 0x45, 0xe9, 0xa5, 0x3e, 0xc7, 0xd7, 0x55, 0x17, 0x88, 0xea,
+	0x08, 0x63, 0x40, 0x77, 0x93, 0xa0, 0xc0, 0x26, 0xda, 0xd8, 0x72, 0xa9, 0x8f, 0xb6, 0x8c, 0xed,
+	0xf1, 0xac, 0xb0, 0x29, 0xc6, 0xa8, 0x4b, 0x03, 0xb4, 0xd9, 0x78, 0x39, 0x89, 0xad, 0xe3, 0x37,
+	0x7a, 0x5b, 0xc3, 0xc9, 0x72, 0xf4, 0x49, 0x15, 0x77, 0x8d, 0x59, 0x35, 0x29, 0x56, 0xdf, 0xcf,
+	0x45, 0x62, 0x1b, 0x8a, 0x0a, 0x3d, 0x42, 0x7b, 0xf4, 0x04, 0x7a, 0x35, 0xe1, 0x83, 0x07, 0x97,
+	0xa7, 0xac, 0x1a, 0x68, 0x8d, 0x06, 0x6f, 0x08, 0x0c, 0xea, 0x0e, 0xf2, 0xdb, 0xcf, 0x2e, 0xdf,
+	0x44, 0x69, 0xa0, 0xb5, 0x6a, 0x40, 0x57, 0xd4, 0x40, 0x6f, 0x50, 0x7c, 0x47, 0xc0, 0xf8, 0x8f,
+	0x56, 0xf6, 0x8a, 0x40, 0xef, 0xea, 0xe4, 0x3c, 0xe7, 0xa2, 0xad, 0xc8, 0x85, 0x36, 0xb8, 0xbc,
+	0x24, 0xb0, 0x8e, 0xdb, 0xcd, 0xbc, 0x9c, 0xff, 0x53, 0x1e, 0x1f, 0x3a, 0x60, 0x2d, 0x78, 0x5c,
+	0x85, 0x28, 0xb7, 0x40, 0x3f, 0x2c, 0xbd, 0x92, 0x2b, 0x2e, 0x83, 0xad, 0x8d, 0x73, 0x2e, 0x2a,
+	0xec, 0xea, 0x85, 0x7c, 0xd4, 0xfb, 0xa6, 0x2d, 0xfb, 0xd6, 0x5b, 0xf7, 0x6d, 0xfc, 0x61, 0xb6,
+	0x6d, 0x18, 0x1c, 0xe4, 0x51, 0x18, 0xa5, 0x5e, 0xbc, 0xa8, 0x58, 0xff, 0x4d, 0xc5, 0x40, 0x5c,
+	0xc8, 0x63, 0x23, 0xb0, 0xa6, 0x85, 0xd4, 0xe5, 0x21, 0xf7, 0x02, 0xbc, 0xb6, 0xba, 0x58, 0xd7,
+	0x75, 0xad, 0xa8, 0x11, 0xab, 0x95, 0x33, 0x1b, 0xca, 0xbd, 0xc0, 0xc3, 0xbf, 0x2b, 0x92, 0x24,
+	0x5a, 0xfd, 0xf0, 0x07, 0xbf, 0x68, 0x16, 0xfc, 0xc5, 0xe1, 0x6f, 0xf9, 0x03, 0x6f, 0x1f, 0x2e,
+	0xf4, 0x66, 0x7d, 0x30, 0xf7, 0xa3, 0x58, 0xda, 0xf3, 0x62, 0x48, 0xa4, 0x5b, 0x6d, 0x35, 0x4a,
+	0xc3, 0x61, 0x87, 0x6d, 0x34, 0x2e, 0x2b, 0x1e, 0x0c, 0x35, 0x66, 0x41, 0xb7, 0xf6, 0xa8, 0xcc,
+	0xae, 0x26, 0x91, 0xae, 0xbe, 0xb3, 0x7d, 0x7c, 0xe6, 0xac, 0x9d, 0x20, 0x4e, 0xcf, 0x1c, 0xf2,
+	0x0d, 0xf1, 0x1d, 0xf1, 0xfc, 0x8b, 0x43, 0xde, 0x22, 0x3e, 0x22, 0x3e, 0x21, 0x8e, 0x11, 0x9f,
+	0x11, 0x27, 0x88, 0x53, 0xc4, 0xeb, 0xaf, 0xce, 0xda, 0x8f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xe3,
+	0xb7, 0x29, 0x43, 0x4c, 0x06, 0x00, 0x00,
 }

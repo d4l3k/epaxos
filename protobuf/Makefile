@@ -1,2 +1,2 @@
-all: message.proto
-	protoc --proto_path=${GOPATH}/src:. --gogo_out=. message.proto
+all:
+	protoc --proto_path=../../../../github.com/gogo/protobuf/:../../../../github.com/gogo/protobuf/protobuf/:. --gogoroach_out=. *.proto
