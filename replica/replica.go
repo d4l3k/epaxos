@@ -12,9 +12,7 @@ package replica
 // - This is used to decrease the size of conflict scanning space.
 
 import (
-	"bytes"
 	"container/list"
-	"encoding/gob"
 	"errors"
 	"fmt"
 	"sort"
@@ -22,7 +20,6 @@ import (
 
 	"github.com/d4l3k/epaxos"
 	"github.com/d4l3k/epaxos/message"
-	"github.com/d4l3k/epaxos/persistent"
 	"github.com/golang/glog"
 )
 
@@ -115,7 +112,7 @@ type Replica struct {
 
 	// persistent store
 	enablePersistent bool
-	store            *persistent.LevelDB
+	//store            *persistent.LevelDB
 }
 
 type Param struct {
@@ -219,11 +216,11 @@ func New(param *Param) (*Replica, error) {
 		path = param.PersistentPath
 	}
 
-	r.store, err = persistent.NewLevelDB(path, param.Restore)
+	/*r.store, err = persistent.NewLevelDB(path, param.Restore)
 	if err != nil {
 		glog.Errorln("replica.New: failed to make new storage")
 		return nil, err
-	}
+	}*/
 
 	for i := uint8(0); i < param.Size; i++ {
 		r.InstanceMatrix[i] = make([]*Instance, defaultInstancesLength)
@@ -268,7 +265,7 @@ func (r *Replica) Stop() {
 	close(r.stop)
 	r.stopTickers()
 	r.Transporter.Stop()
-	r.store.Close()
+	//r.store.Close()
 }
 
 func (r *Replica) timeoutLoop() {
@@ -863,6 +860,7 @@ func printDependencies(msg message.Message) {
 	}
 }
 
+/*
 // store and restore the instance
 func (r *Replica) StoreSingleInstance(inst *Instance) error {
 	var buffer bytes.Buffer
@@ -876,7 +874,9 @@ func (r *Replica) StoreSingleInstance(inst *Instance) error {
 	}
 	return r.store.Put(key, buffer.Bytes())
 }
+*/
 
+/*
 func (r *Replica) RestoreSingleInstance(rowId uint8, instanceId uint64) (*Instance, error) {
 	inst := NewInstance(r, rowId, instanceId)
 	var p PackedInstance
@@ -895,7 +895,9 @@ func (r *Replica) RestoreSingleInstance(rowId uint8, instanceId uint64) (*Instan
 	inst.Unpack(&p)
 	return inst, nil
 }
+*/
 
+/*
 func (r *Replica) StoreInstances(insts ...*Instance) error {
 	kvs := make([]*epaxos.KVpair, len(insts))
 	for i := range insts {
@@ -914,6 +916,7 @@ func (r *Replica) StoreInstances(insts ...*Instance) error {
 	}
 	return r.store.BatchPut(kvs)
 }
+*/
 
 // pack and unpack the replica
 func (r *Replica) Pack() *PackedReplica {
@@ -941,6 +944,7 @@ func (r *Replica) Unpack(p *PackedReplica) {
 	r.ProposeNum = p.ProposeNum
 }
 
+/*
 // store and restore the replica
 func (r *Replica) StoreReplica() error {
 	var buffer bytes.Buffer
@@ -970,6 +974,7 @@ func (r *Replica) RestoreReplica() error {
 
 	return nil
 }
+*/
 
 // recover from persistent storage
 func (r *Replica) RecoverFromPersistent() error {
