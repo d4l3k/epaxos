@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-distributed/epaxos/message"
-	"github.com/go-distributed/epaxos/test"
-	"github.com/go-distributed/epaxos/transporter"
+	"github.com/d4l3k/epaxos/message"
+	"github.com/d4l3k/epaxos/test"
+	"github.com/d4l3k/epaxos/transporter"
 	"github.com/stretchr/testify/assert"
 )
 

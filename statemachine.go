@@ -3,7 +3,7 @@ package epaxos
 import (
 	"errors"
 
-	"github.com/go-distributed/epaxos/message"
+	"github.com/d4l3k/epaxos/message"
 )
 
 var (

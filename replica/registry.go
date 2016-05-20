@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/go-distributed/epaxos/message"
+	"github.com/d4l3k/epaxos/message"
 )
 
 var registry map[uint8]reflect.Type

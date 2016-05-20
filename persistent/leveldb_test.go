@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/golang/leveldb/db"
-	"github.com/go-distributed/epaxos"
+	"github.com/d4l3k/epaxos"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -3,8 +3,8 @@ package test
 import (
 	"bytes"
 
-	"github.com/go-distributed/epaxos"
-	"github.com/go-distributed/epaxos/message"
+	"github.com/d4l3k/epaxos"
+	"github.com/d4l3k/epaxos/message"
 )
 
 type DummySM struct {

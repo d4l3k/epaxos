@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-distributed/epaxos/message"
-	"github.com/go-distributed/epaxos/replica"
-	"github.com/go-distributed/epaxos/transporter"
+	"github.com/d4l3k/epaxos/message"
+	"github.com/d4l3k/epaxos/replica"
+	"github.com/d4l3k/epaxos/transporter"
 	"github.com/golang/glog"
 )
 
