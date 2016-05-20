@@ -66,14 +66,12 @@ func main() {
 		panic(err)
 	}
 	param := &replica.Param{
-		Addrs:            addrs,
-		ReplicaId:        uint8(id),
-		Size:             uint8(len(addrs)),
-		StateMachine:     new(Voter),
-		Transporter:      tr,
-		EnablePersistent: true,
-		Restore:          restore,
-		TimeoutInterval:  time.Second,
+		Addrs:           addrs,
+		ReplicaId:       uint8(id),
+		Size:            uint8(len(addrs)),
+		StateMachine:    new(Voter),
+		Transporter:     tr,
+		TimeoutInterval: time.Second,
 		//ExecuteInterval:  time.Second,
 	}
 	if restore {

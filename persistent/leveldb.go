@@ -4,9 +4,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/d4l3k/epaxos"
 	"github.com/golang/leveldb"
 	"github.com/golang/leveldb/db"
-	"github.com/d4l3k/epaxos"
 )
 
 type LevelDB struct {

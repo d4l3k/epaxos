@@ -109,26 +109,19 @@ type Replica struct {
 	// controllers
 	enableBatching bool
 	stop           chan struct{}
-
-	// persistent store
-	enablePersistent bool
-	//store            *persistent.LevelDB
 }
 
 type Param struct {
-	ReplicaId        uint8
-	Size             uint8
-	StateMachine     epaxos.StateMachine
-	CheckpointCycle  uint64
-	BatchInterval    time.Duration
-	TimeoutInterval  time.Duration
-	ExecuteInterval  time.Duration
-	Addrs            []string
-	Transporter      epaxos.Transporter
-	EnableBatching   bool
-	EnablePersistent bool
-	Restore          bool
-	PersistentPath   string
+	ReplicaId       uint8
+	Size            uint8
+	StateMachine    epaxos.StateMachine
+	CheckpointCycle uint64
+	BatchInterval   time.Duration
+	TimeoutInterval time.Duration
+	ExecuteInterval time.Duration
+	Addrs           []string
+	Transporter     epaxos.Transporter
+	EnableBatching  bool
 }
 
 type proposeRequest struct {
@@ -203,38 +196,15 @@ func New(param *Param) (*Replica, error) {
 		executeTicker: time.NewTicker(param.ExecuteInterval),
 		timeoutTicker: time.NewTicker(param.TimeoutInterval),
 
-		executeTrigger:   make(chan bool),
-		stop:             make(chan struct{}),
-		enableBatching:   param.EnableBatching,
-		enablePersistent: param.EnablePersistent,
+		executeTrigger: make(chan bool),
+		stop:           make(chan struct{}),
+		enableBatching: param.EnableBatching,
 	}
-
-	var path string
-	if param.PersistentPath == "" {
-		path = fmt.Sprintf("%s-%d", "/dev/shm/test", r.Id)
-	} else {
-		path = param.PersistentPath
-	}
-
-	/*r.store, err = persistent.NewLevelDB(path, param.Restore)
-	if err != nil {
-		glog.Errorln("replica.New: failed to make new storage")
-		return nil, err
-	}*/
 
 	for i := uint8(0); i < param.Size; i++ {
 		r.InstanceMatrix[i] = make([]*Instance, defaultInstancesLength)
 		r.MaxInstanceNum[i] = conflictNotFound
 		r.ExecutedUpTo[i] = conflictNotFound
-	}
-
-	// restore replica and instances
-	if param.Restore {
-		err := r.RecoverFromPersistent()
-		if err != nil {
-			glog.Errorln("Recover from persistent failed!")
-			return nil, err
-		}
 	}
 
 	r.Transporter.RegisterChannel(r.MessageChan)
@@ -258,7 +228,9 @@ func (r *Replica) Start() error {
 func (r *Replica) stopTickers() {
 	r.executeTicker.Stop()
 	r.timeoutTicker.Stop()
-	r.proposeTicker.Stop()
+	if r.proposeTicker != nil {
+		r.proposeTicker.Stop()
+	}
 }
 
 func (r *Replica) Stop() {
@@ -396,7 +368,6 @@ func (r *Replica) batchPropose(batchedRequests *[]*proposeRequest) {
 	if r.IsCheckpoint(r.ProposeNum) {
 		r.ProposeNum++
 	}
-	r.StoreReplica()
 
 	// TODO: we could use another channel
 	// and with synchronization to improve throughput
@@ -472,10 +443,6 @@ func (r *Replica) dispatch(msg message.Message) {
 	} else {
 		v1Log.Infof("Replica[%v]: instance[%v][%v] status after = %v, ballot = [%v]\n",
 			r.Id, replicaId, instanceId, i.StatusString(), i.ballot.String())
-	}
-
-	if r.enablePersistent {
-		r.StoreSingleInstance(i)
 	}
 
 	switch action {
@@ -613,9 +580,6 @@ func (r *Replica) scanConflicts(instances []*Instance, cmds message.Commands, st
 }
 
 func (r *Replica) updateMaxInstanceNum(rowId uint8, instanceId uint64) bool {
-	if r.enablePersistent {
-		defer r.StoreReplica()
-	}
 	if r.MaxInstanceNum[rowId] < instanceId {
 		r.MaxInstanceNum[rowId] = instanceId
 		return true
@@ -719,9 +683,6 @@ func (r *Replica) executeList() error {
 		// TODO: transaction one
 		for _, instance := range sccNodes {
 			instance.SetExecuted()
-		}
-		if r.enablePersistent {
-			r.StoreInstances(sccNodes...)
 		}
 	}
 	return nil
@@ -860,64 +821,6 @@ func printDependencies(msg message.Message) {
 	}
 }
 
-/*
-// store and restore the instance
-func (r *Replica) StoreSingleInstance(inst *Instance) error {
-	var buffer bytes.Buffer
-
-	p := inst.Pack()
-	key := fmt.Sprintf("%v-%v-%v", r.Id, p.RowId, p.Id)
-	enc := gob.NewEncoder(&buffer)
-	err := enc.Encode(p)
-	if err != nil {
-		return err
-	}
-	return r.store.Put(key, buffer.Bytes())
-}
-*/
-
-/*
-func (r *Replica) RestoreSingleInstance(rowId uint8, instanceId uint64) (*Instance, error) {
-	inst := NewInstance(r, rowId, instanceId)
-	var p PackedInstance
-
-	key := fmt.Sprintf("%v-%v-%v", r.Id, inst.rowId, inst.id)
-	b, err := r.store.Get(key)
-	if err != nil {
-		return nil, err
-	}
-	buffer := bytes.NewBuffer(b)
-	dec := gob.NewDecoder(buffer)
-	err = dec.Decode(&p)
-	if err != nil {
-		return nil, err
-	}
-	inst.Unpack(&p)
-	return inst, nil
-}
-*/
-
-/*
-func (r *Replica) StoreInstances(insts ...*Instance) error {
-	kvs := make([]*epaxos.KVpair, len(insts))
-	for i := range insts {
-		var buffer bytes.Buffer
-		p := insts[i].Pack()
-		key := fmt.Sprintf("%v-%v-%v", r.Id, insts[i].rowId, insts[i].id)
-		enc := gob.NewEncoder(&buffer)
-		err := enc.Encode(p)
-		if err != nil {
-			return err
-		}
-		kvs[i] = &epaxos.KVpair{
-			Key:   key,
-			Value: buffer.Bytes(),
-		}
-	}
-	return r.store.BatchPut(kvs)
-}
-*/
-
 // pack and unpack the replica
 func (r *Replica) Pack() *PackedReplica {
 	p := &PackedReplica{
@@ -942,60 +845,4 @@ func (r *Replica) Unpack(p *PackedReplica) {
 		r.ExecutedUpTo[i] = p.ExecutedUpTo[i]
 	}
 	r.ProposeNum = p.ProposeNum
-}
-
-/*
-// store and restore the replica
-func (r *Replica) StoreReplica() error {
-	var buffer bytes.Buffer
-
-	p := r.Pack()
-	key := fmt.Sprintf("%v-replica", r.Id)
-	enc := gob.NewEncoder(&buffer)
-	err := enc.Encode(p)
-	if err != nil {
-		return err
-	}
-	return r.store.Put(key, buffer.Bytes())
-}
-
-func (r *Replica) RestoreReplica() error {
-	var p PackedReplica
-
-	key := fmt.Sprintf("%v-replica", r.Id)
-	b, err := r.store.Get(key)
-	if err != nil {
-		return err
-	}
-	buffer := bytes.NewBuffer(b)
-	dec := gob.NewDecoder(buffer)
-	err = dec.Decode(&p)
-	r.Unpack(&p)
-
-	return nil
-}
-*/
-
-// recover from persistent storage
-func (r *Replica) RecoverFromPersistent() error {
-	err := r.RestoreReplica()
-	if err != nil {
-		glog.Errorln("replica.New: failed to restore replica info")
-		return err
-	}
-
-	for i := uint8(0); i < r.Size; i++ {
-		for j := uint64(0); j <= r.MaxInstanceNum[i]; j++ {
-			if r.IsCheckpoint(j) {
-				continue
-			}
-			inst, err := r.RestoreSingleInstance(i, j)
-			if err != nil && err != epaxos.ErrorNotFound {
-				glog.Errorf("replica.New: failed to restore instance info, for [%v][%v]\n", i, j)
-				return err
-			}
-			r.InstanceMatrix[i][j] = inst
-		}
-	}
-	return nil
 }
